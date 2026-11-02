@@ -7,11 +7,13 @@ Kullanım:
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import re
 import subprocess
 import sys
+import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,6 +22,7 @@ from validate_data import read_rows, validate  # noqa: E402
 
 PASS, FAIL, WARN, MANUAL = 'GEÇTİ', 'KALDI', 'UYARI', 'ELLE'
 results = []
+ONLINE = False
 
 
 def add(status, name, detail):
@@ -156,10 +159,21 @@ def check_video_and_links():
             add(FAIL, 'Demo videosu', f'{linked.name} v2 modelinden önce kaydedilmiş; yeniden çek.')
         else:
             add(PASS, 'Demo videosu', f'{linked.name}, {duration:.0f} sn ve README bağlantısı var.')
-    if re.search(r'https://[^\s)]+(ai\.studio|github\.io)', readme):
-        add(MANUAL, 'Canlı uygulama', 'README bağlantısı var; gizli pencerede elle açıp v2 olduğunu doğrula.')
-    else:
+    live = re.search(r'https://[^\s)">]+(?:ai\.studio|github\.io)[^\s)">]*', readme)
+    if not live:
         add(FAIL, 'Canlı uygulama', 'README içinde canlı uygulama bağlantısı yok.')
+    elif not ONLINE:
+        add(MANUAL, 'Canlı uygulama', 'README bağlantısı var; --online ile HTTP kontrolü yapılabilir.')
+    else:
+        base = live.group(0).rstrip('/')
+        try:
+            with urllib.request.urlopen(base + '/model-release.json', timeout=15) as response:
+                manifest = json.loads(response.read().decode('utf-8'))
+            if manifest.get('mode') not in ('off', 'shadow', 'canary', 'active'):
+                raise ValueError(f'geçersiz mod: {manifest.get("mode")}')
+            add(PASS, 'Canlı uygulama', f'{base} HTTP 200, model modu={manifest["mode"]}.')
+        except Exception as error:  # noqa: BLE001 - rapora taşınır
+            add(FAIL, 'Canlı uygulama', f'{base} doğrulanamadı: {error}')
     if 'ekip henüz beyan etmedi' in readme:
         add(FAIL, 'AI beyanı', 'README içindeki elle düzeltme alanı hâlâ boş.')
     else:
@@ -167,6 +181,12 @@ def check_video_and_links():
 
 
 def main():
+    global ONLINE
+    parser = argparse.ArgumentParser(description='Teslim kapısı denetimi.')
+    parser.add_argument('--online', action='store_true',
+                        help='Canlı URL ve model manifestini HTTP ile doğrula.')
+    args = parser.parse_args()
+    ONLINE = args.online
     data_result = check_data()
     check_model(data_result)
     check_release()
