@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Primer v2 model config",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "features",
+    "ranges",
+    "labels",
+    "decision_threshold",
+    "acceptance_accuracy",
+    "metrics",
+    "input",
+    "output",
+    "model_sha256",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "features": {
+      "const": [
+        "seviye",
+        "karar_suresi_sn",
+        "onceki_yanlis_sayisi",
+        "ipucu_sayisi",
+        "sahne_no"
+      ]
+    },
+    "decision_threshold": {
+      "const": 0.6
+    },
+    "acceptance_accuracy": {
+      "const": 0.75
+    },
+    "tolerance": {
+      "const": 0.0001
+    },
+    "status": {
+      "enum": [
+        "synthetic-demo",
+        "real-data-candidate"
+      ]
+    },
+    "model_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "input": {
+      "type": "object",
+      "required": [
+        "name",
+        "dtype",
+        "shape"
+      ],
+      "properties": {
+        "name": {
+          "const": "features"
+        },
+        "dtype": {
+          "const": "float32"
+        },
+        "shape": {
+          "const": [
+            null,
+            5
+          ]
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "required": [
+        "name",
+        "positive_class_index"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "positive_class_index": {
+          "const": 1
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "required": [
+        "accuracy",
+        "onnx_max_abs_error",
+        "real_sessions"
+      ],
+      "properties": {
+        "accuracy": {
+          "type": "number",
+          "minimum": 0.75,
+          "maximum": 1
+        },
+        "onnx_max_abs_error": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMaximum": 0.0001
+        },
+        "real_sessions": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

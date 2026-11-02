@@ -4,12 +4,16 @@ import { ChatMessage, StepId, UserLevel } from '../types/simulation';
 import { soundManager } from '../utils/audio';
 
 interface SocratesWidgetProps {
+  autoOpen?: boolean;
+  onHint?: () => void;
   currentStepId: StepId;
   userLevel: UserLevel;
   selectedChoices: { step1?: string; step2?: string; step3?: string };
 }
 
 export const SocratesWidget: React.FC<SocratesWidgetProps> = ({
+  autoOpen = false,
+  onHint,
   currentStepId,
   userLevel,
   selectedChoices,
@@ -18,6 +22,8 @@ export const SocratesWidget: React.FC<SocratesWidgetProps> = ({
   const [inputMessage, setInputMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { if (autoOpen) setIsOpen(true); }, [autoOpen, currentStepId]);
 
   // Initial greeting
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -56,6 +62,7 @@ export const SocratesWidget: React.FC<SocratesWidgetProps> = ({
     const text = (textToSend || inputMessage).trim();
     if (!text || loading) return;
 
+    onHint?.();
     soundManager.playClick();
 
     const userMsg: ChatMessage = {
@@ -116,6 +123,7 @@ export const SocratesWidget: React.FC<SocratesWidgetProps> = ({
       {/* Header / Toggle Bar */}
       <div
         onClick={() => {
+          if (!isOpen) onHint?.();
           setIsOpen(!isOpen);
           soundManager.playClick();
         }}

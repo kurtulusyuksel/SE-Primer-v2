@@ -8,3 +8,8 @@ cypress/videos/
 *.log
 .env*
 !.env.example
+
+.venv/
+__pycache__/
+public/ort/
+public/model/

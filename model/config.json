@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "features": [
+    "seviye",
+    "karar_suresi_sn",
+    "onceki_yanlis_sayisi",
+    "ipucu_sayisi",
+    "sahne_no"
+  ],
+  "ranges": [
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      600
+    ],
+    [
+      0,
+      2
+    ],
+    [
+      0,
+      30
+    ],
+    [
+      1,
+      3
+    ]
+  ],
+  "integer_features": [
+    0,
+    2,
+    3,
+    4
+  ],
+  "labels": {
+    "0": "normal_akis",
+    "1": "kriz_freni"
+  },
+  "decision_threshold": 0.6,
+  "acceptance_accuracy": 0.75,
+  "tolerance": 0.0001,
+  "seed": 42,
+  "model_version": "2.0.0",
+  "status": "synthetic-demo",
+  "input": {
+    "name": "features",
+    "dtype": "float32",
+    "shape": [
+      null,
+      5
+    ]
+  },
+  "output": {
+    "name": "probabilities",
+    "positive_class_index": 1
+  },
+  "model_sha256": "c4f7734a68d93a40d114960c44b47111e950fcaef02c1db5a28a71e5ceb46289",
+  "data_sha256": "d1dcd344e2f7815763143fd40d984577312bed3bc04a140f9bad6caf7697df6b",
+  "metrics": {
+    "accuracy": 0.9055555555555556,
+    "onnx_max_abs_error": 1.3763748296646838e-07,
+    "confusion_matrix": [
+      [
+        99,
+        3
+      ],
+      [
+        14,
+        64
+      ]
+    ],
+    "train_sessions": 180,
+    "test_sessions": 60,
+    "train_rows": 540,
+    "test_rows": 180,
+    "real_sessions": 0
+  },
+  "split": "GroupShuffleSplit: oturum_id, holdout=0.25; test oturumlari egitimde yok",
+  "dependencies": {
+    "numpy": "2.2.6",
+    "scikit-learn": "1.7.2",
+    "skl2onnx": "1.19.1",
+    "onnx": "1.19.1",
+    "onnxruntime": "1.23.2"
+  }
+}

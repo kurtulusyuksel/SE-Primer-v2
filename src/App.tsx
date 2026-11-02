@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { GameScreen, UserLevel, DecisionChoice, DecisionRecord, OutcomeType, StepId } from './types/simulation';
 import { CRISIS_SCENARIOS } from './data/scenarios';
 import { TopStatusBar } from './components/TopStatusBar';
@@ -8,6 +8,10 @@ import { IncidentTerminal, IncidentLogItem } from './components/IncidentTerminal
 import { SocratesWidget } from './components/SocratesWidget';
 import { PostMortemScreen } from './components/PostMortemScreen';
 import { soundManager } from './utils/audio';
+
+import { ModelLab } from './components/ModelLab';
+import { Features, infer, interventionAllowed, Prediction } from './utils/modelInference';
+import { saveRow, exportRows, clearRows, getRows, completedSessionCount } from './utils/sessionData';
 
 const INITIAL_LOGS: IncidentLogItem[] = [
   {
@@ -41,6 +45,11 @@ const INITIAL_LOGS: IncidentLogItem[] = [
 ];
 
 export default function App() {
+  if (new URLSearchParams(location.search).has('model-lab')) return <ModelLab />;
+  return <Simulation />;
+}
+
+function Simulation() {
   const [currentScreen, setCurrentScreen] = useState<GameScreen>('onboarding');
   const [userLevel, setUserLevel] = useState<UserLevel>('beginner');
   const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
@@ -52,10 +61,51 @@ export default function App() {
   const [incidentLogs, setIncidentLogs] = useState<IncidentLogItem[]>(INITIAL_LOGS);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
+  const [collectionMode, setCollectionMode] = useState(false);
+  const [sessionId, setSessionId] = useState('');
+  const [elapsed, setElapsed] = useState(0);
+  const stepStarted = useRef(performance.now());
+  const [hintCount, setHintCount] = useState(0);
+  const [prediction, setPrediction] = useState<Prediction | null>(null);
+  const [modelError, setModelError] = useState('');
+  const [brake, setBrake] = useState(false);
+  const [intervention, setIntervention] = useState(false);
+  const [label, setLabel] = useState<{ value: 0 | 1; features: Features } | null>(null);
+  const [collectionMessage, setCollectionMessage] = useState('');
+  const [savedRows, setSavedRows] = useState(() => getRows().length);
+  const [completedSessions, setCompletedSessions] = useState(() => completedSessionCount());
+  const features: Features = [userLevel === 'experienced' ? 1 : 0, Math.min(600, elapsed),
+    decisionRecords.filter(record => record.choiceId === 'B').length, Math.min(30, hintCount), currentStepIndex + 1];
+
+  useEffect(() => {
+    if (currentScreen !== 'crisis' || currentStepChoice) return;
+    const tick = setInterval(() => setElapsed(Math.floor((performance.now() - stepStarted.current) / 1000)), 1000);
+    return () => clearInterval(tick);
+  }, [currentScreen, currentStepIndex, currentStepChoice]);
+
+  useEffect(() => {
+    if (currentScreen !== 'crisis' || currentStepChoice) return;
+    let disposed = false;
+    infer(features).then(result => {
+      if (disposed) return;
+      setPrediction(result); setModelError('');
+      // Veri toplarken etiketi etkilememek için müdahale kapalı (shadow).
+      if (!collectionMode && result.needed && interventionAllowed(result.release, sessionId)) {
+        setBrake(true); setIntervention(true);
+      }
+    }).catch(() => { if (!disposed) setModelError('Model kullanılamıyor; normal oyun ve manuel mentor açık.'); });
+    return () => { disposed = true; };
+  }, [currentScreen, currentStepIndex, currentStepChoice, elapsed, hintCount, collectionMode, sessionId, userLevel]);
+
+  const resetScene = () => {
+    stepStarted.current = performance.now(); setElapsed(0); setPrediction(null);
+    setBrake(false); setIntervention(false); setLabel(null); setCollectionMessage('');
+  };
+
   // Each decision in Experienced Mode has its own 60-second timer.
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | undefined;
-    if (currentScreen === 'crisis' && userLevel === 'experienced' && !currentStepChoice && countdownSeconds > 0) {
+    if (currentScreen === 'crisis' && userLevel === 'experienced' && !currentStepChoice && !brake && countdownSeconds > 0) {
       interval = setInterval(() => {
         setCountdownSeconds((prev) => {
           if (prev <= 1) {
@@ -70,9 +120,10 @@ export default function App() {
     return () => {
       if (interval !== undefined) clearInterval(interval);
     };
-  }, [currentScreen, userLevel, currentStepIndex, currentStepChoice]);
+  }, [currentScreen, userLevel, currentStepIndex, currentStepChoice, brake]);
 
   const handleStartSimulation = (level: UserLevel) => {
+    resetScene(); setHintCount(0); setSessionId(crypto.randomUUID());
     setUserLevel(level);
     setCurrentScreen('crisis');
     setCurrentStepIndex(0);
@@ -84,6 +135,7 @@ export default function App() {
   };
 
   const handleRestart = () => {
+    resetScene(); setHintCount(0);
     setCurrentScreen('onboarding');
     setCurrentStepIndex(0);
     setSelectedChoices({});
@@ -96,6 +148,17 @@ export default function App() {
   const currentScenario = CRISIS_SCENARIOS[currentStepIndex];
 
   const handleMakeChoice = (choice: DecisionChoice) => {
+    if (currentStepChoice) return;
+    if (collectionMode && !label) {
+      setCollectionMessage('Karardan önce bu adımda ipucuna ihtiyaç duyup duymadığını işaretle.'); return;
+    }
+    if (collectionMode && label) {
+      try {
+        saveRow({ oturum_id: sessionId, kaynak: 'gercek', features: label.features, ipucu_gerekli: label.value });
+        setSavedRows(getRows().length);
+        setCompletedSessions(completedSessionCount());
+      } catch { setCollectionMessage('Yerel kayıt başarısız. Depolama iznini kontrol et veya veri toplamayı kapat.'); return; }
+    }
     setIsProcessing(true);
     setCurrentStepChoice(choice);
 
@@ -132,6 +195,7 @@ export default function App() {
 
   const handleProceedNext = () => {
     if (currentStepIndex < CRISIS_SCENARIOS.length - 1) {
+      resetScene();
       setCurrentStepIndex((prev) => prev + 1);
       setCurrentStepChoice(null);
       setCountdownSeconds(60);
@@ -164,6 +228,43 @@ export default function App() {
         onToggleSound={() => setSoundEnabled(soundManager.toggleSound())}
         onRestart={handleRestart}
       />
+
+      {currentScreen === 'onboarding' && <section className="mx-auto w-full max-w-3xl p-4 space-y-3 bg-slate-900 rounded-lg">
+        <label className="flex gap-3"><input data-cy="collection-mode" type="checkbox" checked={collectionMode}
+          onChange={event => setCollectionMode(event.target.checked)} />Gerçek oturum veri toplama modu (gönüllü)</label>
+        <p className="text-sm text-slate-300">Ad, e-posta, konum veya cihaz kimliği kaydedilmez. Rastgele oturum kimliği, oyun davranışı ve kendi ihtiyaç etiketin yalnız bu tarayıcıda saklanır. Her oturumda üç kararı tamamla. İstediğin zaman kayıtları silebilirsin.</p>
+        <p data-cy="saved-count">Yerel karar sayısı: {savedRows}. CSV yalnız tamamlanan oturumları içerir.</p>
+        <p data-cy="completed-sessions">Tamamlanmış oturum: {completedSessions} / 15{completedSessions >= 15 ? ' — eğitim için yeterli.' : ' — üç sahneyi bitiren her oyun bir oturumdur.'}</p>
+        <button className="mr-4 underline" data-cy="export-csv" onClick={() => {
+          const count = exportRows(); setCompletedSessions(completedSessionCount());
+          setCollectionMessage(`${count} tamamlanmış oturum dışa aktarıldı.`);
+        }}>CSV indir</button>
+        <button className="underline" onClick={() => {
+          clearRows(); setSavedRows(0); setCompletedSessions(0);
+          setCollectionMessage('Yerel kayıtlar silindi.');
+        }}>Kayıtları sil</button>
+        <p>{collectionMessage}</p>
+      </section>}
+      {currentScreen === 'crisis' && <section className="mx-auto w-full max-w-7xl px-4 py-2 text-sm" aria-live="polite">
+        {prediction?.status === 'synthetic-demo' && <p className="text-amber-300">Sentetik demo modeli — gerçek kullanıcı başarımı ölçülmedi.</p>}
+        {prediction && !collectionMode && <output data-cy="live-p" className="block text-slate-300">İpucu ihtiyacı tahmini: %{(prediction.p * 100).toFixed(1)}</output>}
+        {modelError && <p data-cy="model-status">{modelError}</p>}
+        {intervention && <div data-cy="tutor-banner" className="border border-indigo-400 rounded-lg p-3 bg-indigo-950">
+          <strong>Dikkat: Bu adım kritik görünüyor — kriz freni</strong>
+          <p>{userLevel === 'beginner' ? 'Birlikte küçük bir kontrol yapalım.' : 'Kısa bir teknik risk kontrolü yapalım.'} {[
+            'Darboğaz sürerken yükü hangi bileşen güvenle bekletebilir?',
+            'Aynı ödeme iki kez gelirse değişikliğin güvenli olduğunu nasıl kanıtlarsın?',
+            'Bir log satırını paylaşmadan önce hangi alanların açığa çıktığını kontrol edersin?'
+          ][currentStepIndex]}</p>
+          {userLevel === 'experienced' && <p data-cy="timer-paused">Düşünmen için süre baskısı durduruldu.</p>}
+        </div>}
+        {collectionMode && !currentStepChoice && <div className="border border-slate-500 rounded-lg p-3 space-y-2">
+          <p>Bu kararı vermeden önce yönlendirici bir ipucuna ihtiyacın var mı? Yanlış/doğru sonucuna göre cevaplama. Otomatik kriz freni veri toplarken kapalıdır.</p>
+          <button data-cy="label-yes" className="mr-4 underline" onClick={() => { setLabel({ value: 1, features: [...features] as Features }); setCollectionMessage('İhtiyaç var etiketi seçildi.'); }}>Evet, ipucu gerekli</button>
+          <button data-cy="label-no" className="underline" onClick={() => { setLabel({ value: 0, features: [...features] as Features }); setCollectionMessage('İhtiyaç yok etiketi seçildi.'); }}>Hayır, kendim ilerleyebilirim</button>
+          <p role="status">{collectionMessage}</p>
+        </div>}
+      </section>}
 
       {/* Main Container */}
       <main className="flex-1 pb-16">
@@ -223,6 +324,8 @@ export default function App() {
 
       {/* Bottom Sticky Socratic AI Tutor (Socrates Core) */}
       <SocratesWidget
+        autoOpen={intervention}
+        onHint={() => setHintCount(count => count + 1)}
         currentStepId={currentScenario ? currentScenario.id : 'step1'}
         userLevel={userLevel}
         selectedChoices={selectedChoices}

@@ -83,7 +83,7 @@ export const TopStatusBar: React.FC<TopStatusBarProps> = ({
               >
                 <Clock className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">KRİZ SAYACI:</span>
-                <span className="font-bold tracking-widest text-sm">
+                <span data-cy="countdown" className="font-bold tracking-widest text-sm">
                   {Math.floor(countdownSeconds / 60)}:{String(countdownSeconds % 60).padStart(2, '0')}
                 </span>
               </div>
