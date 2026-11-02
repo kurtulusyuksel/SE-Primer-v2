@@ -1,9 +1,11 @@
 # v2.0 — Kriz freni sürüm planı
 
 ## Gerçek durum
-Yerel geliştirme sürümü; gerçek oturum henüz yok. İlk artefakt açıkça sentetik demo.
-Hugging Face repo/commit ve canlı v2 yayını henüz oluşturulmadı.
-Mevcut v1 canlı bağlantısı, yerel v2 değişikliklerinin yayınlandığı anlamına gelmez.
+v2 GitHub Pages'te yayında: https://kurtulusyuksel.github.io/SE-Primer-v2/
+Gerçek oturum henüz yok (0/15). İlk artefakt açıkça sentetik demo (`status=synthetic-demo`).
+Hugging Face public repo/commit yayını henüz yapılmadı; `public/model-release.json` yerel
+artefaktı gösteriyor. AI Studio'daki v1 adresi v2 değişikliklerini içermez.
+Canlı yayın, gerçek veri kapısının veya HF yayınının tamamlandığı anlamına gelmez.
 
 v2: gönüllü veri toplama, karar öncesi öz bildirim etiketi, gruplanmış holdout,
 StandardScaler+LogisticRegression, ONNX sözleşmesi, Python/WASM paritesi ve kriz freni.

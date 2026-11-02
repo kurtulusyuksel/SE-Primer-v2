@@ -111,7 +111,8 @@ postinstall WASM dosyalarını yerel public/ort dizinine kopyalar; runtime CDN's
 
 Ana ekranda veri toplama kutusunu açın. Her karardan önce kendi ihtiyaç etiketinizi verin.
 Üç sahneyi bitirin; ana ekrana dönüp CSV indirin. En az 15 tamamlanmış gerçek oturumu
-`data/oturumlar.csv` olarak kaydedin. Ayrıntılar `data/SOZLUK.md`.
+`data/oturumlar.csv` olarak kaydedin. Ayrıntılar `data/SOZLUK.md`; 15 oturumluk dağıtım,
+gönüllü mesajı ve ilerleme tablosu `data/GONULLU_PLANI.md`.
 
 Python 3.12 önerilir. PowerShell'de:
 

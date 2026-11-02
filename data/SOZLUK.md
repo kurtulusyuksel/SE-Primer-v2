@@ -24,6 +24,8 @@ Her satır bir karar öncesi gözlemdir; her tamamlanmış oturum 3 satırdır.
 6. Farklı cihaz CSV'lerini birleştirirken yalnız tek başlık bırakın. Aynı UUID/sahne tekrarı
    eğitimde reddedilir. Bir cihazın yeni dışa aktarımı eski kayıtları da içerir; tekrar eklemeyin.
 
+Somut 15 oturumluk dağıtım, gönüllü mesajı ve ilerleme tablosu: `data/GONULLU_PLANI.md`.
+
 Otomatik kriz freni toplama sırasında kapalı; manuel mentor kullanılabilir.
 Özellikler etiket anında dondurulur, karar anında kaydedilir. Etiket yanlış karar sayısından
 veya sentetik üretici kuralından türetilmez. İhtiyaç etiketi öznel ve yanlı olabilir.
