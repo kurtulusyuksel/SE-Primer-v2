@@ -10,6 +10,8 @@ Bu rapor yerel v2 adayına aittir; canlı uygulama veya gerçek kullanıcı dene
 | Python ONNX oracle | 5/5 referans doğrulandı |
 | Cypress v2 model/parite/dağıtım/veri/mobil testleri | 11/11 geçti |
 | Ödev 6 regresyon E2E | 3/3 geçti |
+| Cypress tam yerel koşu | 14 geçti, 1 isteğe bağlı yayın testi atlandı |
+| GitHub Pages canlı duman testi | 1/1 geçti (gerçek WASM, canlı URL) |
 | Veri kapısı doğrulayıcısı | Boş gerçek CSV'yi reddetti; 15 oturum / 45 satır kabul edildi |
 | ONNX modeli | 5 özellik, StandardScaler + LogisticRegression |
 | Sentetik holdout doğruluğu (karar eşiği 0.60) | 0.9055555556 |
@@ -44,11 +46,19 @@ Tarayıcı aracı kurulamadığından görsel kontrol Cypress ekran görüntüle
 Ekran görüntüleri `cypress/screenshots/model.cy.js/` altında (Git dışında).
 
 Son v2 test tekrarında 11/11 model testi ve 3/3 regresyon testi geçti (toplam 14/14).
+GitHub Pages'teki canlı v2 URL'sinde gerçek WASM çıkarımı ayrıca 1/1 doğrulandı
+(`npx cypress run --spec cypress/e2e/pages-smoke.cy.js --expose PAGES_URL=...`).
 Bunlar gerçek insan oturumları değildir; test verileri gerçek CSV'ye yazılmadı.
+
+Canlı v2: https://kurtulusyuksel.github.io/SE-Primer-v2/ — `npm run build:pages` ve
+`npm run deploy:pages` ile gh-pages dalına yayınlanır. AI Studio'daki eski adres v1'dir.
 
 Veri kapısı doğrulayıcısı (`scripts/validate_data.py`) boş dosyayı, 14 oturumu, yinelenen
 sahneyi, aralık dışı özelliği, tek sınıfı ve yanlış kaynağı reddetti; 15 tamamlanmış oturumu
 (45 satır) kabul etti. `scripts/delivery_check.py` eksik kapıları tek raporda gösteriyor.
+
+Bekleyenler: 15 gerçek oturum, gerçek veri eval kapısı, HF public repo/commit,
+60–90 saniyelik insan tarafından sunulan demo video.
 
 Bekleyenler: 15 gerçek oturum, gerçek veri eval kapısı, HF public repo/commit,
 canlı v2 yayını, 60–90 saniyelik insan tarafından sunulan demo video.

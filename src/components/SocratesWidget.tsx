@@ -3,6 +3,12 @@ import { Bot, Send, Sparkles, ChevronUp, ChevronDown, MessageSquare, HelpCircle,
 import { ChatMessage, StepId, UserLevel } from '../types/simulation';
 import { soundManager } from '../utils/audio';
 
+const FALLBACK_REPLIES: Record<StepId, string> = {
+  step1: 'Ani yükü doğrudan veritabanına mı, yoksa kontrollü tüketen bir tampon katmana mı yönlendirmelisin? Kuyruğa alınan siparişin kullanıcıya "tamamlandı" denmeden önce hangi tutarlılık kontrolünden geçmesi gerekir?',
+  step2: 'Kriz anında testi atlamak 30 saniye kazandırır; aynı ödemenin iki kez işlenmesini engelleyen idempotency kanıtını nerede ve nasıl üretirdin?',
+  step3: 'Logu ekiple paylaşmadan önce hangi alanların PAN/CVV içerdiğini nasıl tespit edersin ve maskeleme kuralını nereye uygularsın?',
+};
+
 interface SocratesWidgetProps {
   autoOpen?: boolean;
   onHint?: () => void;
@@ -87,6 +93,7 @@ export const SocratesWidget: React.FC<SocratesWidgetProps> = ({
           choices: selectedChoices,
         }),
       });
+      if (!res.ok) throw new Error(`Tutor yanıtı: ${res.status}`);
 
       const data = await res.json();
       const replyText = data.reply || 'Darboğazın kök nedenini analiz ederken, sence hangi metrik bize en gerçekçi resmi sunuyor?';
@@ -108,7 +115,7 @@ export const SocratesWidget: React.FC<SocratesWidgetProps> = ({
         {
           id: `s-${Date.now()}`,
           sender: 'socrates',
-          text: 'Doğrudan bir seçenek işaretlemek yerine şu soruyu düşün: Veritabanı bağlantı havuzu kilitlendiğinde yükü hafızada mı bekletmeliyiz, yoksa dayanıklı bir message broker üzerine mi almalıyız?',
+          text: FALLBACK_REPLIES[currentStepId],
           timestamp: '00:00:20',
           isSocraticQuestion: true,
         },

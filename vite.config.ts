@@ -5,6 +5,8 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // AI Studio kökte yayınlar; GitHub Pages proje alt yolunda çalışır.
+    base: process.env.GITHUB_PAGES === 'true' ? '/SE-Primer-v2/' : '/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {

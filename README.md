@@ -4,7 +4,7 @@
   <img width="30%" alt="Sonuç Analizi" src="./assets/Stitch3.png" />
   <h1>SE Primer — Muhteşem Cuma Kriz Odası</h1>
   <p><b>YZM301 Yazılım Gerçekleme ve Test · AI-DLC İnteraktif Eğitim Simülasyonu</b></p>
-  <p><a href="https://se-primer-muhte-em-cuma-kriz-odas.ai.studio/"><strong>🔴 CANLI DEMOYU AÇ →</strong></a></p>
+  <p><a href="https://kurtulusyuksel.github.io/SE-Primer-v2/"><strong>🔴 CANLI v2 DEMOYU AÇ →</strong></a></p>
 </div>
 
 ---
@@ -17,7 +17,8 @@ Oyuncu, kriz sırasında mimari, test ve veri güvenliği (KVKK/PCI-DSS) kararla
 
 ## Demo ve Tasarım
 
-- 🌐 **Canlı uygulama:** [SE Primer](https://se-primer-muhte-em-cuma-kriz-odas.ai.studio/)
+- 🌐 **Canlı v2 (GitHub Pages):** [kurtulusyuksel.github.io/SE-Primer-v2](https://kurtulusyuksel.github.io/SE-Primer-v2/)
+- 🕰️ **v1 (AI Studio):** [SE Primer](https://se-primer-muhte-em-cuma-kriz-odas.ai.studio/) — v2 değişikliklerini içermez
 - 💻 **v2 kaynak deposu:** [github.com/kurtulusyuksel/SE-Primer-v2](https://github.com/kurtulusyuksel/SE-Primer-v2)
 - 🎥 **Cypress E2E demo videosu:** [Videoyu görüntüle](<./cypress/e2e/Kayıt 2026-10-26 232608.mp4>)
 - 🎨 **Tasarım sistemi:** [design.md](./design.md)
@@ -86,8 +87,9 @@ MVP kapsamı ve önceliklendirme doğrultusunda aşağıdaki özellikler ilk sü
 ## Ödev 7 — Kriz freni (v2)
 
 **Depo:** https://github.com/kurtulusyuksel/SE-Primer-v2  
-**Durum:** Yerel v2 geliştirmesi. Gerçek oturum: henüz yok. Model: açıkça sentetik demo.
-v1 canlı adresi otomatik güncellenmez. HF yayını ve 60–90 sn video teslimi bekliyor.
+**Canlı v2:** https://kurtulusyuksel.github.io/SE-Primer-v2/  
+**Durum:** v2 GitHub Pages'te yayında. Gerçek oturum: henüz yok. Model: açıkça sentetik demo.
+AI Studio'daki v1 adresi bu değişiklikleri içermez. HF yayını ve 60–90 sn video teslimi bekliyor.
 
 Model mentorun **ne zaman** açılacağını belirler; Gemini mentorun konuşma üretiminden
 ayrıdır. Yüksek ihtiyaçta sahneye özel Sokratik soru ve deneyimli modda sayaç durdurma var.
@@ -210,6 +212,20 @@ Betik sentetik demoyu yayınlamaz. Gerçek adayı public modele yükler; commit 
 `public/model-release.json` içine yazar ve shadow'da başlatır. Detaylar `RELEASE.md`.
 Canlı uygulamayı bu değişikliklerle ayrıca yeniden yayınlayın. Token'ı repoya koymayın.
 
+### GitHub Pages yayını
+
+v2 bugün GitHub Pages'te yayında: https://kurtulusyuksel.github.io/SE-Primer-v2/
+
+```powershell
+npm run build:pages    # alt yol tabanı /SE-Primer-v2/ ile derler
+npm run deploy:pages   # dist'i gh-pages dalına gönderir
+```
+
+Sayfa alt yolda çalıştığı için model, WASM ve manifest yolları `import.meta.env.BASE_URL`
+üzerinden çözülür; kök tabanlı AI Studio derlemesi varsayılan olarak korunur.
+Sunucusuz Pages ortamında `/api/socratic-tutor` yoktur; mentor sahneye özel yerel Sokratik
+yanıtla devam eder. Yayın sonrası canlı URL'de gerçek WASM çıkarımı Cypress ile doğrulandı.
+
 ### Taban örnekten farkımız (özgünlük gerekçesi)
 
 Ödev yönergesindeki taban örnekle ortak olan kısımlar bilinçli olarak korunmuştur:
@@ -237,7 +253,8 @@ Gerçek oturum sayısı 15'e ulaşmadan bu tasarımın öğrenmeyi iyileştirdi�
   (`scripts/validate_data.py` ile doğrulanmış).
 - [ ] Gerçek veri eğitimi ve tüm kapıların geçmesi; sentetik sonuçla karıştırılmaması.
 - [ ] HF public repo ve commit'e sabit model URL'si.
-- [ ] v2 canlı uygulama ve gizli pencerede dört teslim bağlantısının kontrolü.
+- [x] v2 canlı uygulama GitHub Pages'te yayında.
+- [ ] Teslimden önce gizli pencerede dört teslim bağlantısının son kontrolü.
 - [ ] `DEMO.md` planıyla 60–90 sn video çekimi ve video bağlantısı.
 - [ ] `SINAV_TASARIMI.md` içeriğini okuyup kendi cümlelerinle gözden geçirme.
 

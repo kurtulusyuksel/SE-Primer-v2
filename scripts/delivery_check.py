@@ -156,7 +156,7 @@ def check_video_and_links():
             add(FAIL, 'Demo videosu', f'{linked.name} v2 modelinden önce kaydedilmiş; yeniden çek.')
         else:
             add(PASS, 'Demo videosu', f'{linked.name}, {duration:.0f} sn ve README bağlantısı var.')
-    if re.search(r'https://[^\s)]+ai\.studio', readme):
+    if re.search(r'https://[^\s)]+(ai\.studio|github\.io)', readme):
         add(MANUAL, 'Canlı uygulama', 'README bağlantısı var; gizli pencerede elle açıp v2 olduğunu doğrula.')
     else:
         add(FAIL, 'Canlı uygulama', 'README içinde canlı uygulama bağlantısı yok.')

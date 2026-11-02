@@ -9,6 +9,8 @@
   "scripts": {
     "dev": "npm run model:sync && tsx server.ts",
     "build": "npm run model:sync && vite build",
+    "build:pages": "node scripts/build-pages.mjs",
+    "deploy:pages": "node scripts/deploy-pages.mjs",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",

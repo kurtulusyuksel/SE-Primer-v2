@@ -10,8 +10,9 @@ interface Config {
   output: { name: string; positive_class_index: number };
 }
 export interface Release { source: 'local' | 'huggingface'; mode: 'off' | 'shadow' | 'canary' | 'active'; percentage: number; repo_id: string | null; revision: string | null; }
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
 ort.env.wasm.numThreads = 1;
-ort.env.wasm.wasmPaths = `${location.origin}/ort/`;
+ort.env.wasm.wasmPaths = asset('ort/');
 let loaded: Promise<{ config: Config; session: ort.InferenceSession; release: Release }> | undefined;
 async function getResource(url: string) {
   const response = await fetch(url, { signal: AbortSignal.timeout(15000) });
@@ -19,12 +20,12 @@ async function getResource(url: string) {
   return response;
 }
 async function load() {
-  const release: Release = await (await getResource('/model-release.json')).json();
+  const release: Release = await (await getResource(asset('model-release.json'))).json();
   if (!['off', 'shadow', 'canary', 'active'].includes(release.mode) ||
       !Number.isFinite(release.percentage) || release.percentage < 0 || release.percentage > 100) {
     throw new Error('Gecersiz yayin sozlesmesi.');
   }
-  let base = '/model';
+  let base = asset('model');
   if (release.source === 'huggingface') {
     if (!release.repo_id || !/^[\w.-]+\/[\w.-]+$/.test(release.repo_id) || !/^[a-f0-9]{40}$/.test(release.revision ?? '')) {
       throw new Error('Hugging Face modeli 40 karakter commit SHA ile sabitlenmeli.');
