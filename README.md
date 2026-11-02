@@ -254,6 +254,16 @@ v2'de eklenen ve taban örnekte bulunmayan kararlar:
 lojistik regresyondur; fark etiket tanımı, müdahale politikası ve yayın güvenliğindedir.
 Gerçek oturum sayısı 15'e ulaşmadan bu tasarımın öğrenmeyi iyileştirdiği iddia edilmez.
 
+### 8 karar yolu sınırı
+
+Üç sahne ve iki seçenek nedeniyle bir oyunun A/B karar yolu en fazla 2³ = 8'dir:
+`AAA, AAB, ABA, ABB, BAA, BAB, BBA, BBB`. 15 oturum bu yolları tekrar eder; bu, 15 farklı
+senaryo anlamına gelmez. Veri setinin birimi oturum değil **karar satırıdır**: 15 × 3 = 45 satır.
+Model A/B yolunu sınıflandırmaz; `ipucu_gerekli` etiketini beş sayısal özellikle tahmin eder.
+Aynı yol farklı karar süresi, ipucu sayısı, profil ve önceki yanlış sayısıyla farklı satırlar
+üretir. Yine de bu tekrar geniş genelleme iddiasını sınırlar; sonuçlar yalnız bu senaryo
+ailesi için raporlanır ve "8 yolun tamamı öğrenildi" gibi bir iddia kurulmaz.
+
 ### Teslimde kalanlar
 
 - [ ] En az 15 gerçek tamamlanmış oturum (45 karar), iki sınıfı da içeren veri

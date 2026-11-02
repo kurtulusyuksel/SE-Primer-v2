@@ -10,6 +10,20 @@ uydurulmaz; her satır gerçek bir gönüllünün oynadığı oyundan gelir.
 - En az 2 yeni başlayan ve 2 deneyimli profil olsun; tek profile sıkışmayın.
 - Aynı gönüllünün oturumları ayrı UUID alır; oturum bazlı holdout bu yüzden önemlidir.
 
+## 8 karar yolu
+
+Üç sahne × iki seçenek = en fazla 8 olası A/B yolu:
+
+`AAA · AAB · ABA · ABB · BAA · BAB · BBA · BBB`
+
+15 oturum bu yolları ister istemez tekrar eder; bu normaldir. Veri setinin birimi 8 yol değil,
+45 karar satırıdır. Model A/B seçimini değil, karar öncesi `ipucu_gerekli` etiketini tahmin eder;
+aynı yol farklı süre, ipucu ve profille farklı satır üretir.
+
+İdeal dağılım: 8 yolun en az birer kez görülmesi, kalan 7 oturumun dengeli dağılması.
+Ancak gönüllülerin seçimini yönlendirmeyin; yol çeşitliliği için etiketi veya kararı
+zorlamak veriyi yanlılaştırır. Tablodaki “Not” alanına isterseniz gözlenen yolu yazın.
+
 ## Paylaşılacak bağlantı
 
 https://kurtulusyuksel.github.io/SE-Primer-v2/
