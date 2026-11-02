@@ -18,6 +18,7 @@ Oyuncu, kriz sırasında mimari, test ve veri güvenliği (KVKK/PCI-DSS) kararla
 ## Demo ve Tasarım
 
 - 🌐 **Canlı uygulama:** [SE Primer](https://se-primer-muhte-em-cuma-kriz-odas.ai.studio/)
+- 💻 **v2 kaynak deposu:** [github.com/kurtulusyuksel/SE-Primer-v2](https://github.com/kurtulusyuksel/SE-Primer-v2)
 - 🎥 **Cypress E2E demo videosu:** [Videoyu görüntüle](<./cypress/e2e/Kayıt 2026-10-26 232608.mp4>)
 - 🎨 **Tasarım sistemi:** [design.md](./design.md)
 - 📊 **Sokratik mentor değerlendirmesi:** [eval.md](./eval.md)
@@ -84,6 +85,7 @@ MVP kapsamı ve önceliklendirme doğrultusunda aşağıdaki özellikler ilk sü
 
 ## Ödev 7 — Kriz freni (v2)
 
+**Depo:** https://github.com/kurtulusyuksel/SE-Primer-v2  
 **Durum:** Yerel v2 geliştirmesi. Gerçek oturum: henüz yok. Model: açıkça sentetik demo.
 v1 canlı adresi otomatik güncellenmez. HF yayını ve 60–90 sn video teslimi bekliyor.
 
