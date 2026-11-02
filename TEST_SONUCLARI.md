@@ -45,13 +45,16 @@ npx cypress run --config baseUrl=http://localhost:3018 --browser electron
 Tarayıcı aracı kurulamadığından görsel kontrol Cypress ekran görüntüleri üzerinden yapıldı.
 Ekran görüntüleri `cypress/screenshots/model.cy.js/` altında (Git dışında).
 
-Son v2 test tekrarında 11/11 model testi ve 3/3 regresyon testi geçti (toplam 14/14).
-GitHub Pages'teki canlı v2 URL'sinde gerçek WASM çıkarımı ayrıca 1/1 doğrulandı
-(`npx cypress run --spec cypress/e2e/pages-smoke.cy.js --expose PAGES_URL=...`).
+Son v2 test tekrarında 13/13 model/yayın/veri testi ve 3/3 regresyon testi geçti
+(toplam 16/16; iki isteğe bağlı canlı test PAGES_URL verilmediği için atlandı).
+GitHub Pages'teki canlı v2 URL'sinde gerçek WASM çıkarımı 1/1 ve uçtan uca veri
+toplama akışı 1/1 doğrulandı (`--expose PAGES_URL=...`).
 Bunlar gerçek insan oturumları değildir; test verileri gerçek CSV'ye yazılmadı.
 
 Canlı v2: https://kurtulusyuksel.github.io/SE-Primer-v2/ — `npm run build:pages` ve
 `npm run deploy:pages` ile gh-pages dalına yayınlanır. AI Studio'daki eski adres v1'dir.
+Veri toplama modu sekme yenilenince açık kalır; kayıt kapalıyken oyun CSV'ye eklenmez
+ve arayüz bunu oyun sırasında/sonucunda açıkça uyarır.
 
 Veri kapısı doğrulayıcısı (`scripts/validate_data.py`) boş dosyayı, 14 oturumu, yinelenen
 sahneyi, aralık dışı özelliği, tek sınıfı ve yanlış kaynağı reddetti; 15 tamamlanmış oturumu
@@ -59,6 +62,3 @@ sahneyi, aralık dışı özelliği, tek sınıfı ve yanlış kaynağı reddett
 
 Bekleyenler: 15 gerçek oturum, gerçek veri eval kapısı, HF public repo/commit,
 60–90 saniyelik insan tarafından sunulan demo video.
-
-Bekleyenler: 15 gerçek oturum, gerçek veri eval kapısı, HF public repo/commit,
-canlı v2 yayını, 60–90 saniyelik insan tarafından sunulan demo video.

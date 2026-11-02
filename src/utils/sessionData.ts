@@ -1,8 +1,16 @@
 import { FEATURE_NAMES, Features } from './modelInference';
 const KEY = 'primer-v2-decisions';
+const MODE_KEY = 'primer-v2-collection-mode';
 export interface Row { oturum_id: string; kaynak: 'gercek'; features: Features; ipucu_gerekli: 0 | 1; }
 export function getRows(): Row[] {
   try { return JSON.parse(localStorage.getItem(KEY) ?? '[]'); } catch { return []; }
+}
+// Sekme yenilenince açık kalır; tarayıcı kapanınca sıfırlanır. Çerez/kalıcı izin yok.
+export function collectionModeEnabled() {
+  try { return sessionStorage.getItem(MODE_KEY) === '1'; } catch { return false; }
+}
+export function rememberCollectionMode(enabled: boolean) {
+  try { sessionStorage.setItem(MODE_KEY, enabled ? '1' : '0'); } catch { /* depolama kapalı */ }
 }
 export function saveRow(row: Row) {
   const rows = getRows().filter(existing => !(existing.oturum_id === row.oturum_id && existing.features[4] === row.features[4]));

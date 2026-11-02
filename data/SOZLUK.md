@@ -15,7 +15,8 @@ Her satır bir karar öncesi gözlemdir; her tamamlanmış oturum 3 satırdır.
 
 ## Gerçek veri toplama
 
-1. Ana ekranda gönüllülük metnini okuyup veri toplama kutusunu açın.
+1. Ana ekranda gönüllülük metnini okuyup **“Gerçek oturum veri toplama modu”** kutusunu işaretleyin.
+   Kutu boşsa oyun kaydedilmez; oyun sırasında üstte “Kayıt kapalı” uyarısı görünür.
 2. Her sahnede sonucu görmeden ihtiyaç etiketini seçip karar verin; 3 sahneyi tamamlayın.
 3. Sonuçtan ana ekrana dönün. Yeni oyun yeni rastgele oturumdur.
 4. En az 15 tamamlanmış oturum; örneğin 3 farklı gönüllüye beşer oyun oynatın.

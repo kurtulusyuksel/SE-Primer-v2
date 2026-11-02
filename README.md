@@ -109,10 +109,13 @@ postinstall WASM dosyalarını yerel public/ort dizinine kopyalar; runtime CDN's
 
 ### Gerçek veri ve eğitim
 
-Ana ekranda veri toplama kutusunu açın. Her karardan önce kendi ihtiyaç etiketinizi verin.
-Üç sahneyi bitirin; ana ekrana dönüp CSV indirin. En az 15 tamamlanmış gerçek oturumu
-`data/oturumlar.csv` olarak kaydedin. Ayrıntılar `data/SOZLUK.md`; 15 oturumluk dağıtım,
-gönüllü mesajı ve ilerleme tablosu `data/GONULLU_PLANI.md`.
+Ana ekranda **“Gerçek oturum veri toplama modu (gönüllü)”** kutusunu işaretleyin; kutu
+işaretli değilse oyun kaydedilmez. Her karardan önce kendi ihtiyaç etiketinizi verin.
+Üç sahneyi bitirin; ana ekrana dönüp CSV indirin. Oyun sırasında üstte “Kayıt açık —
+bu oturumda 2/3 karar kaydedildi” durumu görünür; mod sekme yenilenince açık kalır.
+En az 15 tamamlanmış gerçek oturumu `data/oturumlar.csv` olarak kaydedin.
+Ayrıntılar `data/SOZLUK.md`; 15 oturumluk dağıtım, gönüllü mesajı ve ilerleme tablosu
+`data/GONULLU_PLANI.md`.
 
 Python 3.12 önerilir. PowerShell'de:
 

@@ -11,7 +11,7 @@ import { soundManager } from './utils/audio';
 
 import { ModelLab } from './components/ModelLab';
 import { Features, infer, interventionAllowed, Prediction } from './utils/modelInference';
-import { saveRow, exportRows, clearRows, getRows, completedSessionCount } from './utils/sessionData';
+import { saveRow, exportRows, clearRows, getRows, completedSessionCount, collectionModeEnabled, rememberCollectionMode } from './utils/sessionData';
 
 const INITIAL_LOGS: IncidentLogItem[] = [
   {
@@ -61,7 +61,7 @@ function Simulation() {
   const [incidentLogs, setIncidentLogs] = useState<IncidentLogItem[]>(INITIAL_LOGS);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
-  const [collectionMode, setCollectionMode] = useState(false);
+  const [collectionMode, setCollectionMode] = useState<boolean>(collectionModeEnabled);
   const [sessionId, setSessionId] = useState('');
   const [elapsed, setElapsed] = useState(0);
   const stepStarted = useRef(performance.now());
@@ -76,6 +76,7 @@ function Simulation() {
   const [completedSessions, setCompletedSessions] = useState(() => completedSessionCount());
   const features: Features = [userLevel === 'experienced' ? 1 : 0, Math.min(600, elapsed),
     decisionRecords.filter(record => record.choiceId === 'B').length, Math.min(30, hintCount), currentStepIndex + 1];
+  const sessionDecisions = sessionId ? getRows().filter(row => row.oturum_id === sessionId).length : 0;
 
   useEffect(() => {
     if (currentScreen !== 'crisis' || currentStepChoice) return;
@@ -231,14 +232,21 @@ function Simulation() {
 
       {currentScreen === 'onboarding' && <section className="mx-auto w-full max-w-3xl p-4 space-y-3 bg-slate-900 rounded-lg">
         <label className="flex gap-3"><input data-cy="collection-mode" type="checkbox" checked={collectionMode}
-          onChange={event => setCollectionMode(event.target.checked)} />Gerçek oturum veri toplama modu (gönüllü)</label>
+          onChange={event => { setCollectionMode(event.target.checked); rememberCollectionMode(event.target.checked); }} />Gerçek oturum veri toplama modu (gönüllü)</label>
+        <p data-cy="collection-state" className={collectionMode ? 'text-sm text-emerald-300' : 'text-sm text-amber-300'}>
+          {collectionMode
+            ? 'Veri toplama AÇIK. Her sahnede karardan önce ihtiyaç etiketini seç; üç sahne bitince oturum sayılır.'
+            : 'Veri toplama KAPALI. Bu oyun kaydedilmez. Gönüllü verisi için kutuyu işaretleyip oyuna başla.'}
+        </p>
         <p className="text-sm text-slate-300">Ad, e-posta, konum veya cihaz kimliği kaydedilmez. Rastgele oturum kimliği, oyun davranışı ve kendi ihtiyaç etiketin yalnız bu tarayıcıda saklanır. Her oturumda üç kararı tamamla. İstediğin zaman kayıtları silebilirsin.</p>
         <p data-cy="saved-count">Yerel karar sayısı: {savedRows}. CSV yalnız tamamlanan oturumları içerir.</p>
         <p data-cy="completed-sessions">Tamamlanmış oturum: {completedSessions} / 15{completedSessions >= 15 ? ' — eğitim için yeterli.' : ' — üç sahneyi bitiren her oyun bir oturumdur.'}</p>
         <button className="mr-4 underline" data-cy="export-csv" onClick={() => {
-          const count = exportRows(); setCompletedSessions(completedSessionCount());
-          setCollectionMessage(`${count} tamamlanmış oturum dışa aktarıldı.`);
-        }}>CSV indir</button>
+          const count = exportRows(); setCompletedSessions(completedSessionCount()); setSavedRows(getRows().length);
+          setCollectionMessage(count > 0
+            ? `${count} tamamlanmış oturum dışa aktarıldı.`
+            : 'Henüz tamamlanmış oturum yok; üç sahne bitmeden CSV oluşmaz.');
+        }}>CSV indir ({completedSessions})</button>
         <button className="underline" onClick={() => {
           clearRows(); setSavedRows(0); setCompletedSessions(0);
           setCollectionMessage('Yerel kayıtlar silindi.');
@@ -248,6 +256,11 @@ function Simulation() {
       {currentScreen === 'crisis' && <section className="mx-auto w-full max-w-7xl px-4 py-2 text-sm" aria-live="polite">
         {prediction?.status === 'synthetic-demo' && <p className="text-amber-300">Sentetik demo modeli — gerçek kullanıcı başarımı ölçülmedi.</p>}
         {prediction && !collectionMode && <output data-cy="live-p" className="block text-slate-300">İpucu ihtiyacı tahmini: %{(prediction.p * 100).toFixed(1)}</output>}
+        {sessionId && <p data-cy="collection-status" role="status" className={collectionMode ? 'text-emerald-300' : 'text-amber-300'}>
+          {collectionMode
+            ? `Kayıt açık — bu oturumda ${sessionDecisions}/3 karar kaydedildi · Tamamlanmış oturum: ${completedSessions}/15`
+            : 'Kayıt kapalı — bu oyun CSV\'ye eklenmez. Kaydetmek için ana ekrana dön, kutuyu işaretle ve yeniden başla.'}
+        </p>}
         {modelError && <p data-cy="model-status">{modelError}</p>}
         {intervention && <div data-cy="tutor-banner" className="border border-indigo-400 rounded-lg p-3 bg-indigo-950">
           <strong>Dikkat: Bu adım kritik görünüyor — kriz freni</strong>
@@ -313,12 +326,21 @@ function Simulation() {
         )}
 
         {currentScreen === 'result' && (
-          <PostMortemScreen
-            outcome={evaluateOutcome()}
-            decisions={decisionRecords}
-            userLevel={userLevel}
-            onRestart={handleRestart}
-          />
+          <>
+            <p data-cy="session-saved" role="status" className={collectionMode && sessionDecisions === 3 ? 'mx-auto max-w-3xl px-4 pt-4 text-sm text-emerald-300' : 'mx-auto max-w-3xl px-4 pt-4 text-sm text-amber-300'}>
+              {collectionMode
+                ? sessionDecisions === 3
+                  ? `Bu oturum kaydedildi (3/3). Tamamlanmış oturum: ${completedSessions}/15. CSV için ana ekrana dön.`
+                  : `Bu oturum eksik (${sessionDecisions}/3); CSV'ye eklenmez. Üç sahneyi de etiketleyerek bitir.`
+                : 'Bu oyun kaydedilmedi (veri toplama kapalı). Kaydetmek için ana ekranda kutuyu işaretleyip yeniden başla.'}
+            </p>
+            <PostMortemScreen
+              outcome={evaluateOutcome()}
+              decisions={decisionRecords}
+              userLevel={userLevel}
+              onRestart={handleRestart}
+            />
+          </>
         )}
       </main>
 

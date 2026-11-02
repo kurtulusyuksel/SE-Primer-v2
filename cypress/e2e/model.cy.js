@@ -137,6 +137,30 @@ describe('v2 — yayın sözleşmesi ve mobil görünüm', () => {
     cy.get('[data-cy=completed-sessions]').should('contain.text', '1 / 15');
   });
 
+  it('veri toplama modu sekme yenilenince açık kalır', () => {
+    cy.visit('/');
+    cy.get('[data-cy=collection-mode]').check();
+    cy.get('[data-cy=collection-state]').should('contain.text', 'AÇIK');
+    cy.reload();
+    cy.get('[data-cy=collection-mode]').should('be.checked');
+    cy.get('[data-cy=collection-state]').should('contain.text', 'AÇIK');
+  });
+
+  it('kayıt kapalıyken biten oyun CSV dışında kalır ve uyarı gösterir', () => {
+    cy.visit('/');
+    start();
+    cy.get('[data-cy=collection-status]').should('contain.text', 'Kayıt kapalı');
+    for (let scene = 1; scene <= 3; scene++) {
+      cy.contains('A ŞIKKINI DEVREYE AL', { matchCase: false }).click();
+      if (scene < 3) cy.contains('Sonraki Kriz Adımına Geç', { matchCase: false }).click();
+      else cy.contains('Post-Mortem', { matchCase: false }).click();
+    }
+    cy.get('[data-cy=session-saved]').should('contain.text', 'kaydedilmedi');
+    cy.window().then(win => {
+      expect(win.localStorage.getItem('primer-v2-decisions')).to.be.null;
+    });
+  });
+
   it('dar ekranda veri toplama kontrolü kullanılabilir', () => {
     cy.viewport(390, 844);
     cy.visit('/');
