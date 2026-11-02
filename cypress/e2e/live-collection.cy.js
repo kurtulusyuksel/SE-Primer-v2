@@ -10,6 +10,8 @@ describe('canlı veri toplama akışı (isteğe bağlı)', () => {
     cy.get('[data-cy=collection-state]').should('contain.text', 'AÇIK');
     cy.contains('YENİ BAŞLAYAN', { matchCase: false }).click();
     cy.contains('Kriz Odasına Bağlan', { matchCase: false }).click();
+    cy.get('[data-cy=label-panel]', { timeout: 15000 }).should('be.visible');
+    cy.contains('A ŞIKKINI DEVREYE AL', { matchCase: false }).should('be.disabled');
 
     for (let step = 1; step <= 3; step++) {
       cy.get('[data-cy=label-no]', { timeout: 15000 }).click();

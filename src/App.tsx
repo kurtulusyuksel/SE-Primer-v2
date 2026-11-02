@@ -271,12 +271,6 @@ function Simulation() {
           ][currentStepIndex]}</p>
           {userLevel === 'experienced' && <p data-cy="timer-paused">Düşünmen için süre baskısı durduruldu.</p>}
         </div>}
-        {collectionMode && !currentStepChoice && <div className="border border-slate-500 rounded-lg p-3 space-y-2">
-          <p>Bu kararı vermeden önce yönlendirici bir ipucuna ihtiyacın var mı? Yanlış/doğru sonucuna göre cevaplama. Otomatik kriz freni veri toplarken kapalıdır.</p>
-          <button data-cy="label-yes" className="mr-4 underline" onClick={() => { setLabel({ value: 1, features: [...features] as Features }); setCollectionMessage('İhtiyaç var etiketi seçildi.'); }}>Evet, ipucu gerekli</button>
-          <button data-cy="label-no" className="underline" onClick={() => { setLabel({ value: 0, features: [...features] as Features }); setCollectionMessage('İhtiyaç yok etiketi seçildi.'); }}>Hayır, kendim ilerleyebilirim</button>
-          <p role="status">{collectionMessage}</p>
-        </div>}
       </section>}
 
       {/* Main Container */}
@@ -299,6 +293,13 @@ function Simulation() {
                   selectedChoice={currentStepChoice}
                   onProceedNext={handleProceedNext}
                   isLastStep={currentStepIndex === CRISIS_SCENARIOS.length - 1}
+                  collecting={collectionMode}
+                  labelValue={label ? label.value : null}
+                  onLabel={value => {
+                    setLabel({ value, features: [...features] as Features });
+                    setCollectionMessage(value === 1 ? 'İhtiyaç var etiketi seçildi.' : 'İhtiyaç yok etiketi seçildi.');
+                  }}
+                  labelMessage={collectionMessage}
                 />
               </div>
 

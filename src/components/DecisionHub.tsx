@@ -11,6 +11,10 @@ interface DecisionHubProps {
   selectedChoice: DecisionChoice | null;
   onProceedNext: () => void;
   isLastStep: boolean;
+  collecting: boolean;
+  labelValue: 0 | 1 | null;
+  onLabel: (value: 0 | 1) => void;
+  labelMessage: string;
 }
 
 export const DecisionHub: React.FC<DecisionHubProps> = ({
@@ -21,8 +25,13 @@ export const DecisionHub: React.FC<DecisionHubProps> = ({
   selectedChoice,
   onProceedNext,
   isLastStep,
+  collecting,
+  labelValue,
+  onLabel,
+  labelMessage,
 }) => {
   const [hoveredChoice, setHoveredChoice] = useState<'A' | 'B' | null>(null);
+  const labelMissing = collecting && labelValue === null && !selectedChoice;
 
   const handleSelect = (choice: DecisionChoice) => {
     if (selectedChoice || isProcessing) return;
@@ -109,6 +118,48 @@ export const DecisionHub: React.FC<DecisionHubProps> = ({
 
       {/* Decision Choice Cards */}
       <div className="space-y-3">
+        {collecting && !selectedChoice && (
+          <div data-cy="label-panel" className="rounded-[8px] border border-[#F59E0B]/40 bg-[#F59E0B]/10 p-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="text-xs font-semibold text-[#FDE68A]">
+                Karar öncesi tek soru: bu adımda yönlendirici bir ipucuna ihtiyacın var mı?
+              </p>
+              <span className="font-mono text-[10px] text-[#F59E0B]">Her sahnede 1 kez</span>
+            </div>
+            <div className="mt-2 grid gap-2 sm:grid-cols-2">
+              <button
+                type="button"
+                data-cy="label-yes"
+                onClick={() => onLabel(1)}
+                className={`rounded-[4px] border px-3 py-2 font-mono text-xs font-bold transition ${
+                  labelValue === 1
+                    ? 'border-[#F59E0B] bg-[#F59E0B] text-[#0A0F1D]'
+                    : 'border-[#F59E0B]/50 bg-[#0A0F1D] text-[#FDE68A] hover:bg-[#F59E0B]/20'
+                }`}
+              >
+                Evet, ipucu gerekli
+              </button>
+              <button
+                type="button"
+                data-cy="label-no"
+                onClick={() => onLabel(0)}
+                className={`rounded-[4px] border px-3 py-2 font-mono text-xs font-bold transition ${
+                  labelValue === 0
+                    ? 'border-[#10B981] bg-[#10B981] text-[#0A0F1D]'
+                    : 'border-[#10B981]/50 bg-[#0A0F1D] text-[#A7F3D0] hover:bg-[#10B981]/20'
+                }`}
+              >
+                Hayır, kendim ilerleyebilirim
+              </button>
+            </div>
+            <p data-cy="label-state" role="status" className="mt-2 text-[11px] text-[#D1D5DB]">
+              {labelValue !== null
+                ? 'Etiket seçildi — şimdi aşağıdan A/B kararını verebilirsin.'
+                : labelMessage || 'Bu etiket doğru/yanlış sonucuna göre değil, yalnızca o anki ihtiyacına göre seçilir.'}
+            </p>
+          </div>
+        )}
+
         <div className="flex items-center justify-between font-mono text-xs text-[#9CA3AF]">
           <span className="font-semibold uppercase tracking-wider">
             Müdahale Eylemini Seçin:
@@ -192,8 +243,11 @@ export const DecisionHub: React.FC<DecisionHubProps> = ({
                     <button
                       type="button"
                       onClick={() => handleSelect(choice)}
-                      disabled={isProcessing}
+                      disabled={isProcessing || labelMissing}
+                      title={labelMissing ? 'Önce yukarıdaki ihtiyaç etiketini seç.' : undefined}
                       className={`flex w-full items-center justify-center space-x-2 rounded-[4px] py-2.5 font-mono text-xs font-bold transition active:scale-[0.98] ${
+                        labelMissing ? 'cursor-not-allowed opacity-40 ' : ''
+                      }${
                         choice.id === 'A'
                           ? 'bg-[#6366F1] text-white hover:bg-[#4F46E5] shadow-[0_0_12px_rgba(99,102,241,0.3)]'
                           : 'border border-[#EF4444]/60 bg-[#EF4444]/20 text-[#EF4444] hover:bg-[#EF4444]/30'

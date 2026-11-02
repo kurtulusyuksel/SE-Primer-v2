@@ -54,7 +54,8 @@ Bunlar gerçek insan oturumları değildir; test verileri gerçek CSV'ye yazılm
 Canlı v2: https://kurtulusyuksel.github.io/SE-Primer-v2/ — `npm run build:pages` ve
 `npm run deploy:pages` ile gh-pages dalına yayınlanır. AI Studio'daki eski adres v1'dir.
 Veri toplama modu sekme yenilenince açık kalır; kayıt kapalıyken oyun CSV'ye eklenmez
-ve arayüz bunu oyun sırasında/sonucunda açıkça uyarır.
+ve arayüz bunu oyun sırasında/sonucunda açıkça uyarır. İhtiyaç etiketi karar kartlarının
+hemen üstünde tek tıkla seçilir; etiket seçilmeden A/B düğmeleri kilitlidir.
 
 Veri kapısı doğrulayıcısı (`scripts/validate_data.py`) boş dosyayı, 14 oturumu, yinelenen
 sahneyi, aralık dışı özelliği, tek sınıfı ve yanlış kaynağı reddetti; 15 tamamlanmış oturumu

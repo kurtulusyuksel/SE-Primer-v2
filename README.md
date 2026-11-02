@@ -110,7 +110,10 @@ postinstall WASM dosyalarını yerel public/ort dizinine kopyalar; runtime CDN's
 ### Gerçek veri ve eğitim
 
 Ana ekranda **“Gerçek oturum veri toplama modu (gönüllü)”** kutusunu işaretleyin; kutu
-işaretli değilse oyun kaydedilmez. Her karardan önce kendi ihtiyaç etiketinizi verin.
+işaretli değilse oyun kaydedilmez. Her karardan önce, karar kartlarının hemen üstündeki
+tek soruda kendi ihtiyaç etiketinizi tek tıkla seçin; etiket seçilmeden A/B düğmeleri açılmaz.
+Etiket her sahnede ayrı sorulur çünkü her oturum üç bağımsız satır üretir; tek etiket
+45 satırlık veri sözleşmesini bozar.
 Üç sahneyi bitirin; ana ekrana dönüp CSV indirin. Oyun sırasında üstte “Kayıt açık —
 bu oturumda 2/3 karar kaydedildi” durumu görünür; mod sekme yenilenince açık kalır.
 En az 15 tamamlanmış gerçek oturumu `data/oturumlar.csv` olarak kaydedin.

@@ -89,11 +89,12 @@ describe('v2 — modelin oyun davranışına etkisi', () => {
   it('gerçek oturumda bağımsız etiket olmadan kayıt yok; 3 karar 1 oturumdur', () => {
     cy.visit('/');
     cy.get('[data-cy=collection-mode]').check(); start();
-    cy.contains('A ŞIKKINI DEVREYE AL', { matchCase: false }).click();
-    cy.contains('Karardan önce bu adımda').should('be.visible');
+    cy.get('[data-cy=label-panel]').should('be.visible');
+    cy.contains('A ŞIKKINI DEVREYE AL', { matchCase: false }).should('be.disabled');
     for (let scene = 1; scene <= 3; scene++) {
       cy.get('[data-cy=label-no]').click();
-      cy.contains('A ŞIKKINI DEVREYE AL', { matchCase: false }).click();
+      cy.get('[data-cy=label-state]').should('contain.text', 'Etiket seçildi');
+      cy.contains('A ŞIKKINI DEVREYE AL', { matchCase: false }).should('not.be.disabled').click();
       cy.get('[data-cy=tutor-banner]').should('not.exist');
       if (scene < 3) cy.contains('Sonraki Kriz Adımına Geç', { matchCase: false }).click();
     }
