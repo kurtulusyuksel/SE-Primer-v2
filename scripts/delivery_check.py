@@ -48,8 +48,13 @@ def check_data():
     result = validate(rows, header)
     summary = result['summary']
     if result['ok']:
-        add(PASS, 'Gerçek veri', f'{summary["complete_sessions"]} tamamlanmış oturum, '
-                                 f'{summary["file_rows"]} satır.')
+        detail = (f'{summary["complete_sessions"]} tamamlanmış oturum, '
+                  f'{summary["file_rows"]} satır.')
+        if summary.get('conflicting_feature_vectors') or summary.get('repeated_feature_rows'):
+            detail += (f' {summary["repeated_feature_rows"]} tekrar, '
+                       f'{summary["conflicting_feature_vectors"]} çelişkili vektör; '
+                       'ayırt edicilik zayıf.')
+        add(PASS, 'Gerçek veri', detail)
     else:
         add(FAIL, 'Gerçek veri', f'{summary["complete_sessions"]}/{summary["required_sessions"]} oturum; '
                                  f'ilk hata: {result["errors"][0]}')

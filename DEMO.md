@@ -22,9 +22,10 @@ yaklaşık 80 saniyelik bir okuma içindir; birebir okunmak zorunda değildir.
 > Deneyimli profile dönüyorum; yeterince beklediğimde süre baskısı duruyor, çünkü
 > kriz freni riski düşürüyor.
 >
-> Veri toplama açık ama henüz sıfır gerçek oturum var. On beş oturum toplanmadan
-> gerçek veri başarımı iddia etmiyorum. Python ve tarayıcı çıkarımı aynı sonucu
-> veriyor. Bu video, sentetik demo modelini ve mevcut v2 akışını gösteriyor.
+> Veri toplama açık; şu an 30 gerçek oturum var ama bunlar tek kullanıcıdan ve model
+> hâlâ sentetik demo. Eval kapısını geçmediği için gerçek veri modeli yayınlamadım.
+> Python ve tarayıcı çıkarımı aynı sonucu veriyor. Bu video, sentetik demo modelini
+> ve mevcut v2 akışını gösteriyor.
 
 Çekimden önce tarayıcıyı gizli pencerede açın, kişisel sekme/parola göstermeyin.
 
@@ -36,7 +37,8 @@ yaklaşık 80 saniyelik bir okuma içindir; birebir okunmak zorunda değildir.
    ile `[1,12,0,0,1]` olasılıklarını da göster. Gerçek oyundaki ekranı lab ile karıştırma.
 4. 55–70 sn: Deneyimli oyuncunun yeterli beklemesiyle süre baskısının durmasını göster.
    Bekleme süresi çekimde kesilebilir; gerçekten modelin çalıştığını belirt.
-5. 70–90 sn: Veri toplama, Python/WASM paritesi ve 15 gerçek oturumun henüz tamamlanmadığı.
+5. 70–90 sn: Veri toplama (30 oturum, tek kullanıcı), Python/WASM paritesi ve gerçek veri
+   eval kapısının henüz geçilmediği.
 
 Teslim videosu iki oyuncunun **aynı sahnede** farklı model kararını gerçek arayüzde
 göstermeli. Lab ekranı tek başına bu koşulu karşılamaz. Kişisel veri/anahtar gösterme.

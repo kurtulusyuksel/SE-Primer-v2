@@ -48,6 +48,7 @@ def validate(rows, header=None, allow_incomplete=False):
     scene_counts = Counter()
     seen = set()
     feature_rows = []
+    feature_labels = []
 
     if header is not None:
         missing = [column for column in COLUMNS if column not in header]
@@ -110,6 +111,7 @@ def validate(rows, header=None, allow_incomplete=False):
         label_counts[label] += 1
         scene_counts[scene] += 1
         feature_rows.append(values)
+        feature_labels.append((tuple(values), label))
 
     sessions = list(scenes_by_session)
     complete = [session for session in sessions if scenes_by_session[session] == SCENES]
@@ -139,6 +141,18 @@ def validate(rows, header=None, allow_incomplete=False):
         if len(column) > 1 and len(set(column)) == 1:
             warnings.append(f'{name} tüm satırlarda sabit; ayırt edici bilgi taşımıyor.')
 
+    vectors = defaultdict(list)
+    for vector, label in feature_labels:
+        vectors[vector].append(label)
+    repeated_rows = len(feature_labels) - len(vectors)
+    conflicts = sum(1 for labels in vectors.values() if len(set(labels)) > 1)
+    if repeated_rows:
+        warnings.append(f'{repeated_rows} satır birebir aynı özellik vektörünü tekrar ediyor; '
+                        'oturum bazlı holdout özellik düzeyinde sızabilir.')
+    if conflicts:
+        warnings.append(f'{conflicts} özellik vektörü aynı girdiyle hem 0 hem 1 etiketli; '
+                        'bu satırların tamamı hiçbir modelle ayrılamaz.')
+
     summary = {
         'file_rows': len(rows),
         'sessions': len(sessions),
@@ -153,6 +167,9 @@ def validate(rows, header=None, allow_incomplete=False):
             '1': sum(1 for values in labels_by_session.values() if values and all(value == 1 for value in values)),
             'mixed': sum(1 for values in labels_by_session.values() if 0 in values and 1 in values),
         },
+        'unique_feature_vectors': len(vectors),
+        'repeated_feature_rows': repeated_rows,
+        'conflicting_feature_vectors': conflicts,
     }
     return {'ok': not errors, 'errors': errors, 'warnings': warnings, 'summary': summary}
 
@@ -174,7 +191,11 @@ def render(result, path: Path):
         print('SONUÇ: EKSİK — yukarıdaki hatalar giderilmeden eğitim/yayın yapılmamalı.')
     elif (summary['missing_sessions'] == 0 and summary['incomplete_sessions'] == 0
           and set(summary['labels']) == {'0', '1'}):
-        print('SONUÇ: HAZIR — veri eğitim ve yayın kapılarını karşılıyor.')
+        if summary['conflicting_feature_vectors'] or summary['repeated_feature_rows']:
+            print('SONUÇ: KAPILAR GEÇTİ, ANCAK AYIRT EDİCİLİK ZAYIF — aynı özellik '
+                  'vektörleri tekrar/çelişki içeriyor; eval kapısı ayrıca denenmeli.')
+        else:
+            print('SONUÇ: HAZIR — veri eğitim ve yayın kapılarını karşılıyor.')
     else:
         print('SONUÇ: TOPLAMA SÜRÜYOR — yapısal hata yok, ancak kapılar henüz karşılanmadı.')
 

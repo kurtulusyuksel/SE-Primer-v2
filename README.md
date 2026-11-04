@@ -198,8 +198,34 @@ Holdout 8 oturum / 24 karardır. Accuracy=0.791667 görünse de model tüm test 
 olarak sınıflandırmıştır (TN=19, FN=5); bu nedenle doğruluk tek başına yeterli değildir.
 İlk üç altın kabul örneğinin beklenen `[1, 0, 1]` tahminleri yerine `[0, 0, 0]` çıktı;
 eval kapısı reddetti, gerçek veri adayı artefaktları yazılmadı. `ipucu_sayisi` 90 satırın
-tamamında 0 olduğundan ayırt edici bilgi taşımaz. Daha çeşitli gerçek kullanıcı oturumları
-toplayın; etiketi/kararı yönlendirmeyin ve eval eşiğini düşürmeyin.
+tamamında 0 olduğundan ayırt edici bilgi taşımaz.
+
+**Kök neden analizi** (`scripts/analyze_eval.py` ile yeniden üretilir):
+
+- 90 satırda yalnız **30 benzersiz özellik vektörü** var; 60 satır birebir tekrar.
+  12 vektör aynı girdiyle hem 0 hem 1 etiketli. Bu nedenle aynı satırların tamamını
+  hiçbir model bilemez; tüm veride çoğunluk oyu tavanı **70/90 = 0.7778**'dir. Raporlanan
+  0.7917 ise holdout'ta tüm satırlara 0 demenin doğruluğu olan **19/24 = 0.7917** ile
+  birebir aynıdır; öğrenme göstergesi değildir.
+- Holdout'taki 24 satırın **20'sinin birebir aynı özellik vektörü eğitimde de var**.
+  Oturum bazlı `GroupShuffleSplit` aynı oturumun satırlarını ayırır, ancak farklı
+  oturumlardaki aynı özellik vektörünü ayırmaz. Yani test kümesi özellik düzeyinde temiz değil.
+- `karar_suresi_sn` yalnız **1–21 sn** arasında ve 8 farklı değer alıyor. Altın
+  örneklerdeki 55 ve 40 sn gözlenen dağılımın tamamen dışında; model bu bölgeye
+  eğitimde hiç görmediği için düşük olasılık veriyor.
+- İki sınıfın özellik ortalamaları neredeyse aynı (süre 2.09 / 1.96 sn, önceki yanlış
+  0.33 / 0.23). Eğitilen katsayılar süre ve önceki yanlış için **negatif**; bu örneklem
+  "uzun süre → yardım gerekir" varsayımını desteklemiyor.
+
+Sonuç: eşik veya model ayarı düşürülmemeli. Yeni veri farklı katılımcılardan, gerçek
+ipucu kullanımını da içerecek şekilde ve etiket yönlendirilmeden toplanmalı. Altın
+örnekler 40–55 sn bandında; mevcut veri bu bandı kapsamıyor. Süreyi yapay olarak
+uzatmak da doğru değil; gerçekten uzun kararlar oluşursa model bu bölgeyi görebilir.
+Analizi tekrar üretmek için:
+
+```powershell
+.\.venv\Scripts\python.exe scripts/analyze_eval.py
+```
 
 Üretici seed=42 ve kuralı `data/SOZLUK.md` içinde. Sentetik veri gerçek CSV'ye yazılmaz.
 Accuracy>=0.75 kabul eşiği `spec.md` ve `model/contract.json` içinde eğitimden önce tanımlıdır;

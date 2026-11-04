@@ -18,16 +18,31 @@ değildir. Gerçek oturum sayısı ve eval denemesi aşağıdaki CSV ve komut ç
 | Sentetik holdout doğruluğu (karar eşiği 0.60) | 0.9055555556 |
 | sklearn -> ONNX maksimum mutlak fark | 1.3763748297e-7 (<1e-4) |
 | Gerçek CSV | 30 tamamlanmış oturum / 90 satır; kaynak=gercek; etiketler 64/26 |
-| Gerçek veri validator | 30/30 tamamlandı; UUID/sahne/özellik/sınıf kapıları geçti; `ipucu_sayisi` sabit uyarısı |
+| Gerçek veri validator | 30/30 tamamlandı; UUID/sahne/özellik/sınıf kapıları geçti; `ipucu_sayisi` sabit, 60 tekrar ve 12 çelişkili vektör uyarısı |
 | Gerçek veri eval denemesi | GroupShuffleSplit seed=42; holdout 8 oturum / 24 satır; accuracy=0.791667 |
 | Holdout hata profili | TN=19, FP=0, FN=5, TP=0; model tüm holdout satırlarını 0 tahmin etti |
 | Altın kabul örnekleri | Beklenen `[1,0,1]`; üretilen `[0,0,0]`; yayın kapısı reddetti |
 | Reddedilen adayın yan etkisi | Model/config yazılmadı; sentetik demo ONNX ve Python oracle hash/paritesi korundu |
 | Gerçek kullanıcı genellemesi | 30 oturum kullanıcının kendi kullanımından; 30 farklı katılımcı değildir |
+| Veri tekrarı | 90 satırda yalnız 30 benzersiz özellik vektörü; 60 satır birebir tekrar |
+| Çelişkili etiket | 12 özellik vektörü aynı girdiyle hem 0 hem 1 etiketli |
+| Çoğunluk oyu tavanı | 70/90 = 0.7778; bu veride ulaşılabilecek en iyi sabit tahmin |
+| Holdout özellik örtüşmesi | 24 test satırının 20'si eğitimde birebir aynı özellik vektörüyle var |
+| Süre dağılımı / altın örnekler | Gerçek 1–21 sn (8 farklı değer); altın örnekler 40 ve 55 sn (dağılım dışı) |
+| Model katsayıları (ölçekli) | seviye -0.354, süre -0.237, önceki yanlış -0.278, ipucu 0.000, sahne -0.094 |
+| Kök neden analizi | `python scripts/analyze_eval.py` ile yeniden üretildi |
 
 Eğitim testleri boş gerçek verinin reddini, başarısız eval'in önceki artefaktı korumasını
 ve aynı veri/seed/bağımlılıklarla birebir aynı model+metriklerin üretilmesini doğruladı.
 ONNX grafik adı da sabittir.
+
+Kök neden analizi 0.7917'nin öğrenme olmadığını gösteriyor: bu değer 19/24, yani holdout'ta
+tüm satırlara 0 demenin doğruluğuyla birebir aynı. 90 satır yalnız 30 benzersiz özellik
+vektörüne indirgeniyor, 12 vektör çelişkili ve tüm veride çoğunluk oyu tavanı 70/90 = 0.7778.
+Holdout'taki 24 satırın 20'sinin birebir aynı vektörü eğitimde de var. `karar_suresi_sn`
+1–21 sn (8 değer) iken altın örnekler 40–55 sn; model bu bandı eğitimde hiç görmedi.
+Katsayılar süre ve önceki yanlış için negatif; yani bu örneklem "uzun süre → yardım"
+varsayımını desteklemiyor. Eşik düşürülmedi, aday artefakt yazılmadı.
 
 Tarayıcı testleri gerçek ONNX Runtime Web WASM kullandı; model olasılıkları mock edilmedi.
 HTTP hatası/hash/manifest olumsuz testlerinde ilgili ağ kaynağı kontrollü değiştirildi.

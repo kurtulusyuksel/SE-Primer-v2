@@ -15,6 +15,14 @@ Gerçek veri modelinin eval kapısı ve HF yayını tamamlanmış değildir. `ip
 90 satırın tamamında 0 olup ayırt edici özellik değildir. Daha çeşitli ve bağımsız kullanıcı
 oturumları toplanmadan başarı ya da genelleme iddiası kurulmaz; kabul eşiği değiştirilmez.
 
+Kök neden (`scripts/analyze_eval.py`): 90 satır yalnız 30 benzersiz özellik vektörüne
+indirgeniyor; 60 satır birebir tekrar ve 12 vektör aynı girdiyle çelişkili etiketli.
+Bu veride çoğunluk oyu tavanı 70/90 = 0.7778. Holdout'un 20/24 satırı eğitimde birebir
+aynı özellik vektörüyle bulunuyor; oturum bazlı ayrım özellik düzeyinde sızıntıyı
+engellemiyor. `karar_suresi_sn` 1–21 sn (8 farklı değer) iken altın örnekler 40–55 sn
+ile dağılım dışında; eğitilen katsayılar süre ve önceki yanlış için negatif. Dolayısıyla
+0.7917 öğrenme değil, çoğunluk sınıfını tahmin etmenin sonucudur.
+
 v2: gönüllü veri toplama, karar öncesi öz bildirim etiketi, gruplanmış holdout,
 StandardScaler+LogisticRegression, ONNX sözleşmesi, Python/WASM paritesi ve kriz freni.
 Ödev taban örneğinden fark: mimari/test/gizlilik için ayrı Sokratik sorular, profile göre

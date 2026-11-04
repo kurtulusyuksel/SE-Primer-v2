@@ -9,8 +9,11 @@ uydurulmaz; her satır gerçek bir gönüllünün oynadığı oyundan gelir.
 oturum / 90 karar satırı vardır; iki etiket de mevcuttur. Kullanıcı oturumları kendi gerçek
 kullanımından bildirmiştir; 30 farklı katılımcı oldukları iddia edilmez. Holdout doğruluğu
 0.791667 olsa da model tüm holdout kararlarını 0 tahmin etti ve ilk üç altın örneği geçemedi;
-eval kapısı reddedildi. Yeni ve daha çeşitli katılımcı oturumları toplanmalıdır. Etiket veya
-kararlar model eşiğini geçsin diye yönlendirilmemelidir.
+eval kapısı reddedildi. Kök neden (`scripts/analyze_eval.py`): 90 satır yalnız 30 benzersiz
+özellik vektörü üretiyor, 12 vektör çelişkili ve çoğunluk tavanı 0.7778. Süreler 1–21 sn
+(8 değer) iken altın örnekler 40–55 sn. Bu yüzden yalnız aynı kişiden daha fazla oturum
+toplamak yetmez; farklı katılımcılar, gerçek ipucu kullanımı ve daha uzun kararlar gerekir.
+Etiket veya kararlar model eşiğini geçsin diye yönlendirilmemelidir.
 
 ## Hedef
 
