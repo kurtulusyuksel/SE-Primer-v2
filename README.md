@@ -283,6 +283,7 @@ Kapı durumunu tek komutta görmek için:
 
 ### AI araç kullanımı beyanı
 
+- GitHub Copilot SDK (VS Code): Ödev gereksinimleri ve teslim kapıları denetlendi; Python, TypeScript, derleme, oracle ve Cypress doğrulamaları çalıştırıldı. Bu incelemede uygulama kodu değiştirilmedi.
 - OpenAI Codex ve OpenCode (DeepSeek V4.1): mevcut kod/yönerge incelemesi, veri toplama akışı,
   eğitim ve ONNX entegrasyonu taslağı; parite/regresyon testleri ve teknik dokümantasyon taslağı.
 - Kullanıcı katkısı: tutor hedefi ve tarayıcı mimarisi tercihi; komutların çalıştırılması,
