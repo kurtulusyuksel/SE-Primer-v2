@@ -42,3 +42,29 @@ yaklaşık 80 saniyelik bir okuma içindir; birebir okunmak zorunda değildir.
 
 Teslim videosu iki oyuncunun **aynı sahnede** farklı model kararını gerçek arayüzde
 göstermeli. Lab ekranı tek başına bu koşulu karşılamaz. Kişisel veri/anahtar gösterme.
+
+## Çekim kontrol listesi
+
+**Önce**
+
+- [ ] Canlı adresi gizli pencerede aç: https://kurtulusyuksel.github.io/SE-Primer-v2/
+- [ ] 1920×1080, %100 yakınlaştırma; bildirimleri ve kişisel sekmeleri kapat.
+- [ ] Mikrofonu test et; sesin videoda net duyulduğunu kontrol et.
+- [ ] Ekran kaydını 30 fps başlat; fare imlecini yavaş hareket ettir.
+
+**Çekerken**
+
+- [ ] Aynı sahneyi (sahne 1) önce deneyimli, sonra yeni başlayan profilde göster.
+- [ ] Deneyimli profilde otomatik müdahale olmadığını ve sürenin ilerlediğini göster.
+- [ ] Yeni başlayan profilde ihtiyaç etiketini işaretle; yeterince bekle.
+- [ ] Banner ve sahneye özel Sokratik sorunun açıldığını göster.
+- [ ] Model laboratuvarında `[0,55,1,0,2]` ve `[1,12,0,0,1]` olasılıklarını göster.
+- [ ] Sentetik demo etiketini ve gerçek veri modelinin yayınlanmadığını söyle.
+
+**Sonra**
+
+- [ ] Kaydı 60–90 saniyeye kırp; gerekiyorsa 2–3 kesit kullan.
+- [ ] `assets/demo.mp4` olarak kaydet ve README'deki video bağlantısını buna çevir.
+- [ ] `.\.venv\Scripts\python.exe scripts/delivery_check.py` çalıştır;
+      "Demo videosu" satırının GEÇTİ olduğunu doğrula.
+- [ ] Videoda ad, e-posta, token veya kişisel sekme görünmediğini son kez izle.
