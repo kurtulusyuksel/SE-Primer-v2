@@ -357,7 +357,7 @@ ailesi için raporlanır ve "8 yolun tamamı öğrenildi" gibi bir iddia kurulma
   reddedildi; model/ONNX yazılmadı). Geçerli, dengeli gerçek oturumlar toplanmadan
   model/HF yayını yapılmamalı.
 - [x] HF public demo repo ve commit'e sabit model URL'si
-  (`kurtulus7182/SEPrimer@5c3a504…`; sentetik demo, gerçek veri modeli değil).
+  (`kurtulus7182/SEPrimer@237b231…`; sentetik demo, gerçek veri modeli değil).
 - [x] v2 canlı uygulama GitHub Pages'te yayında.
 - [ ] Teslimden önce gizli pencerede dört teslim bağlantısının son kontrolü.
 - [x] `DEMO.md` planıyla 75,7 sn video çekimi ve README video bağlantısı (`assets/demo.mp4`).

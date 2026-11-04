@@ -31,7 +31,7 @@ değildir. Gerçek oturum sayısı ve eval denemesi aşağıdaki CSV ve komut ç
 | Altın kabul örnekleri | Beklenen `[1,0,1]`; üretilen `[0,0,0]`; yayın kapısı reddetti |
 | Reddedilen adayın yan etkisi | Model/config yazılmadı; sentetik demo ONNX ve Python oracle hash/paritesi korundu |
 | Gerçek kullanıcı genellemesi | 30 oturum kullanıcının kendi kullanımından; 30 farklı katılımcı değildir |
-| HF demo yayını | `kurtulus7182/SEPrimer@5c3a5043…`; model.onnx/config.json/README bayt-eşit; status=synthetic-demo |
+| HF demo yayını | `kurtulus7182/SEPrimer@237b231a…`; model.onnx/config.json/README bayt-eşit; status=synthetic-demo |
 | Canlı yeniden doğrulama | Yeni HF commit'i ve manifest ile Cypress 1/1 geçti (gerçek WASM, model SHA doğrulandı) |
 | Veri tekrarı | 90 satırda yalnız 30 benzersiz özellik vektörü; 60 satır birebir tekrar |
 | Çelişkili etiket | 12 özellik vektörü aynı girdiyle hem 0 hem 1 etiketli |
