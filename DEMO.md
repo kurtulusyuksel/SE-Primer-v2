@@ -22,10 +22,11 @@ yaklaşık 80 saniyelik bir okuma içindir; birebir okunmak zorunda değildir.
 > Deneyimli profile dönüyorum; yeterince beklediğimde süre baskısı duruyor, çünkü
 > kriz freni riski düşürüyor.
 >
-> Veri toplama açık; şu an 30 gerçek oturum var ama bunlar tek kullanıcıdan ve model
-> hâlâ sentetik demo. Sentetik demoyu Hugging Face'te açık etiketle yayınladım; eval
-> kapısını geçmediği için gerçek veri modelini yayınlamadım. Python ve tarayıcı çıkarımı
-> aynı sonucu veriyor. Bu video, sentetik demo modelini ve mevcut v2 akışını gösteriyor.
+> Veri toplama açık; eski 30 oturumluk veriyi sıfırladım ve 15 oturumu kendim yeniden
+> topluyorum. Model hâlâ sentetik demo. Sentetik demoyu Hugging Face'te açık etiketle
+> yayınladım; eval kapısını geçmediği için gerçek veri modelini yayınlamadım. Python ve
+> tarayıcı çıkarımı aynı sonucu veriyor. Bu video, sentetik demo modelini ve mevcut v2
+> akışını gösteriyor.
 
 Çekimden önce tarayıcıyı gizli pencerede açın, kişisel sekme/parola göstermeyin.
 
@@ -37,8 +38,9 @@ yaklaşık 80 saniyelik bir okuma içindir; birebir okunmak zorunda değildir.
    ile `[1,12,0,0,1]` olasılıklarını da göster. Gerçek oyundaki ekranı lab ile karıştırma.
 4. 55–70 sn: Deneyimli oyuncunun yeterli beklemesiyle süre baskısının durmasını göster.
    Bekleme süresi çekimde kesilebilir; gerçekten modelin çalıştığını belirt.
-5. 70–90 sn: Veri toplama (30 oturum, tek kullanıcı), Python/WASM paritesi ve gerçek veri
-   eval kapısının henüz geçilmediği.
+5. 70–90 sn: Veri toplama protokolü (15 oturum, tek kullanıcı) ve gerçek veri eval
+   kapısının henüz geçilmediği; Hugging Face'te yalnız açık etiketli sentetik demonun
+   yayında olduğu.
 
 Teslim videosu iki oyuncunun **aynı sahnede** farklı model kararını gerçek arayüzde
 göstermeli. Lab ekranı tek başına bu koşulu karşılamaz. Kişisel veri/anahtar gösterme.

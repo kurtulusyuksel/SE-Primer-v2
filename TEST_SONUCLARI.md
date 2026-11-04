@@ -3,6 +3,12 @@
 Bu rapor yerel v2 adayına aittir; canlı uygulama performansı ya da öğretim faydası iddiası
 değildir. Gerçek oturum sayısı ve eval denemesi aşağıdaki CSV ve komut çıktısından alınmıştır.
 
+> **Tarihsel kayıt.** Bu tablodaki 30 oturum / 90 satırlık gerçek veri 4 Kasım 2026 akşamı
+> çalışma dosyasından kaldırıldı; `data/oturumlar.csv` artık yalnız başlık içeriyor.
+> Kullanıcı 15 oturumu kendisi yeniden toplayacak. Aşağıdaki gerçek veri, holdout ve model
+> eval satırları **önceki denemeyi** belgeler; yeni veri için yeniden çalıştırılmalıdır.
+> Sentetik demo, HF yayını, parite ve tarayıcı testleri hâlâ geçerlidir.
+
 | Kontrol | Sonuç |
 |---|---|
 | TypeScript (`npm run lint`) | Geçti |

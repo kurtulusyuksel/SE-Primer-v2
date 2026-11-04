@@ -1,29 +1,34 @@
 # v2.0 — Kriz freni sürüm planı
 
 ## Gerçek durum
+> **4 Kasım 2026 akşamı veri sıfırlandı.** Eski 30 oturumluk gerçek veri yalnız çalışma
+> dosyasından kaldırıldı; Git geçmişi silinmedi. `data/oturumlar.csv` şu an yalnız başlık
+> satırı içeriyor. Kullanıcı 15 tamamlanmış oturumu kendisi yeniden oynayacak. Yeni veri
+> gelene kadar gerçek veri eğitimi, eval kapısı ve HF gerçek model yayını kapalıdır.
+
 v2 GitHub Pages'te yayında: https://kurtulusyuksel.github.io/SE-Primer-v2/
-30 gerçek oturum / 90 karar `data/oturumlar.csv` içinde doğrulandı; iki dışa aktarımda UUID
-çakışması yoktu. Kullanıcının beyanına göre oturumlar kendi gerçek kullanımlarından geliyor;
-30 farklı katılımcı olduğu ileri sürülmüyor. Birleştirilmiş aday seed=42 oturum holdout'unda
-accuracy=0.791667 verdi (24 test satırı, 8 oturum), fakat 24 satırın tamamını 0 olarak tahmin
-etti (TN=19, FN=5) ve ilk üç altın örnekte beklenen `[1,0,1]` yerine `[0,0,0]` üretti.
-Altın kabul kapısı adayı reddetti. Yeni artefakt yazılmadı; çalışan model açıkça sentetik demo
-(`status=synthetic-demo`) olarak kaldı.
+Önceki 30 oturumluk deneme (artık çalışma dosyasında yok) iki dışa aktarımda UUID
+çakışması olmadan birleştirilmişti. Kullanıcının beyanına göre oturumlar kendi gerçek
+kullanımlarından geliyordu; 30 farklı katılımcı olduğu ileri sürülmüyordu. Birleştirilmiş
+aday seed=42 oturum holdout'unda accuracy=0.791667 verdi (24 test satırı, 8 oturum), fakat
+24 satırın tamamını 0 olarak tahmin etti (TN=19, FN=5) ve ilk üç altın örnekte beklenen
+`[1,0,1]` yerine `[0,0,0]` üretti. Altın kabul kapısı adayı reddetti. Yeni artefakt
+yazılmadı; çalışan model açıkça sentetik demo (`status=synthetic-demo`) olarak kaldı.
 Hugging Face'te sentetik demo açık etiketle yayınlandı:
 `kurtulus7182/SEPrimer@2e720cf8bdf86b26c4584371b18475cc10d00df1`;
-`public/model-release.json` bu commit'i gösteriyor. Gerçek veri adayı eval kapısını
-geçmediği için HF'ye yüklenmedi. AI Studio'daki v1 adresi v2 değişikliklerini içermez.
-Gerçek veri modelinin eval kapısı ve HF yayını tamamlanmış değildir. `ipucu_sayisi` mevcut
-90 satırın tamamında 0 olup ayırt edici özellik değildir. Daha çeşitli ve bağımsız kullanıcı
-oturumları toplanmadan başarı ya da genelleme iddiası kurulmaz; kabul eşiği değiştirilmez.
+`public/model-release.json` bu commit'i gösteriyor. Eval kapısı geçilirse aynı repo gerçek
+adayla güncellenecek. AI Studio'daki v1 adresi v2 değişikliklerini içermez.
+Önceki denemede `ipucu_sayisi` 90 satırın tamamında 0 olup ayırt edici özellik değildi.
+Yeni 15 oturum tek kullanıcıdan toplanacağı için sonuç yalnız o kişiye ait olur; geniş
+kullanıcı kitlesine genelleme iddiası kurulmaz ve kabul eşiği değiştirilmez.
 
-Kök neden (`scripts/analyze_eval.py`): 90 satır yalnız 30 benzersiz özellik vektörüne
-indirgeniyor; 60 satır birebir tekrar ve 12 vektör aynı girdiyle çelişkili etiketli.
-Bu veride çoğunluk oyu tavanı 70/90 = 0.7778. Holdout'un 20/24 satırı eğitimde birebir
-aynı özellik vektörüyle bulunuyor; oturum bazlı ayrım özellik düzeyinde sızıntıyı
-engellemiyor. `karar_suresi_sn` 1–21 sn (8 farklı değer) iken altın örnekler 40–55 sn
-ile dağılım dışında; eğitilen katsayılar süre ve önceki yanlış için negatif. Dolayısıyla
-0.7917 öğrenme değil, çoğunluk sınıfını tahmin etmenin sonucudur.
+Kök neden (önceki veri, `scripts/analyze_eval.py`): 90 satır yalnız 30 benzersiz özellik
+vektörüne indirgeniyordu; 60 satır birebir tekrar ve 12 vektör aynı girdiyle çelişkili
+etiketliydi. Bu veride çoğunluk oyu tavanı 70/90 = 0.7778 idi. Holdout'un 20/24 satırı
+eğitimde birebir aynı özellik vektörüyle bulunuyordu; oturum bazlı ayrım özellik düzeyinde
+sızıntıyı engellemiyordu. `karar_suresi_sn` 1–21 sn (8 farklı değer) iken altın örnekler
+40–55 sn ile dağılım dışındaydı; eğitilen katsayılar süre ve önceki yanlış için negatifti.
+Dolayısıyla 0.7917 öğrenme değil, çoğunluk sınıfını tahmin etmenin sonucuydu.
 
 v2: gönüllü veri toplama, karar öncesi öz bildirim etiketi, gruplanmış holdout,
 StandardScaler+LogisticRegression, ONNX sözleşmesi, Python/WASM paritesi ve kriz freni.

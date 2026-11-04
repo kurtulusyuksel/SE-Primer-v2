@@ -15,12 +15,17 @@ Her satır bir karar öncesi gözlemdir; her tamamlanmış oturum 3 satırdır.
 
 ## Gerçek veri toplama
 
+> **4 Kasım 2026: veri sıfırlandı.** `data/oturumlar.csv` yalnız başlık satırı içeriyor.
+> Kullanıcı 15 oturumu kendisi yeniden toplayacak. Yeni oyuna başlamadan önce tarayıcıdaki
+> eski kayıtları **Kayıtları sil** düğmesiyle temizleyin.
+
 1. Ana ekranda gönüllülük metnini okuyup **“Gerçek oturum veri toplama modu”** kutusunu işaretleyin.
    Kutu boşsa oyun kaydedilmez; oyun sırasında üstte “Kayıt kapalı” uyarısı görünür.
 2. Her sahnede sonucu görmeden ihtiyaç etiketini seçip karar verin; 3 sahneyi tamamlayın.
 3. Sonuçtan ana ekrana dönün. Yeni oyun yeni rastgele oturumdur.
-4. En az 15 tamamlanmış oturum; örneğin 3 farklı gönüllüye beşer oyun oynatın.
-   Kişi bilgisi tutulmadığından farklı kişi sayısı yazılımla doğrulanamaz; çeşitliliği ekip gözetir.
+4. 15 tamamlanmış oturum toplayın (45 satır). Bu tur tek kullanıcıdan yapılacaksa sonuç
+   yalnız o kişiye ait olur; geniş kullanıcı kitlesine genelleme iddia edilmez.
+   Kişi bilgisi tutulmadığından farklı kişi sayısı yazılımla doğrulanamaz.
 5. CSV indir. Dosyayı `data/oturumlar.csv` yerine koyun. Yarım oturumlar dışa aktarılmaz.
 6. Farklı cihaz CSV'lerini birleştirirken yalnız tek başlık bırakın. Aynı UUID/sahne tekrarı
    eğitimde reddedilir. Bir cihazın yeni dışa aktarımı eski kayıtları da içerir; tekrar eklemeyin.
