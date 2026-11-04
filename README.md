@@ -88,8 +88,11 @@ MVP kapsamı ve önceliklendirme doğrultusunda aşağıdaki özellikler ilk sü
 
 **Depo:** https://github.com/kurtulusyuksel/SE-Primer-v2  
 **Canlı v2:** https://kurtulusyuksel.github.io/SE-Primer-v2/  
-**Durum:** v2 GitHub Pages'te yayında. Gerçek oturum: henüz yok. Model: açıkça sentetik demo.
-AI Studio'daki v1 adresi bu değişiklikleri içermez. HF yayını ve 60–90 sn video teslimi bekliyor.
+**Durum:** v2 GitHub Pages'te yayında. `data/oturumlar.csv` içinde 15 gerçek oturum / 45 karar var.
+Bu veriden aday modelin sabit holdout doğruluğu 0.333 oldu; önceden belirlenmiş 0.75 eval
+kapısı reddetti. Bu nedenle çalışan artefakt sentetik demo olarak kaldı; gerçek veri modeli
+ve Hugging Face yayını yapılmadı. 60–90 sn demo video da bekliyor. AI Studio'daki v1 adresi
+bu değişiklikleri içermez.
 
 Model mentorun **ne zaman** açılacağını belirler; Gemini mentorun konuşma üretiminden
 ayrıdır. Yüksek ihtiyaçta sahneye özel Sokratik soru ve deneyimli modda sayaç durdurma var.
@@ -116,7 +119,9 @@ Etiket her sahnede ayrı sorulur çünkü her oturum üç bağımsız satır ür
 45 satırlık veri sözleşmesini bozar.
 Üç sahneyi bitirin; ana ekrana dönüp CSV indirin. Oyun sırasında üstte “Kayıt açık —
 bu oturumda 2/3 karar kaydedildi” durumu görünür; mod sekme yenilenince açık kalır.
-En az 15 tamamlanmış gerçek oturumu `data/oturumlar.csv` olarak kaydedin.
+En az 15 tamamlanmış gerçek oturumu `data/oturumlar.csv` olarak kaydedin. Mevcut CSV,
+kullanıcının kendi kullanımıyla kaydettiğini belirttiği 15 oturumu içerir; bunlar 15 farklı
+katılımcı değildir. Geniş kullanıcı kitlesine genelleme iddiası çıkarılamaz.
 Ayrıntılar `data/SOZLUK.md`; 15 oturumluk dağıtım, gönüllü mesajı ve ilerleme tablosu
 `data/GONULLU_PLANI.md`.
 
@@ -184,6 +189,12 @@ Teslim öncesi tüm kapıları tek komutta denetlemek için:
 
 Betik veri, model, HF manifesti, Git durumu, video ve beyan alanlarını kontrol eder;
 ağ isteği yapmaz, canlı bağlantıyı "elle doğrula" olarak işaretler.
+
+Mevcut 45 satırın etiketleri 27 "yardım gerekmiyor", 18 "yardım gerekli" olarak dağılır.
+Holdout 4 oturum / 12 karardır ve 0.333 doğruluk üretmiştir; yeni model yazılmamıştır.
+`ipucu_sayisi` 45 satırın tamamında 0 olduğundan şu veri kümesinde ayırt edici bilgi taşımaz.
+Kullanıcı davranışını doğal biçimde çeşitlendirerek daha fazla oturum toplayın; etiketi veya
+kararı modelin geçmesi için yönlendirmeyin. Eval eşiğini düşürmeyin.
 
 Üretici seed=42 ve kuralı `data/SOZLUK.md` içinde. Sentetik veri gerçek CSV'ye yazılmaz.
 Accuracy>=0.75 kabul eşiği `spec.md` ve `model/contract.json` içinde eğitimden önce tanımlıdır;
@@ -266,9 +277,10 @@ ailesi için raporlanır ve "8 yolun tamamı öğrenildi" gibi bir iddia kurulma
 
 ### Teslimde kalanlar
 
-- [ ] En az 15 gerçek tamamlanmış oturum (45 karar), iki sınıfı da içeren veri
+- [x] En az 15 gerçek tamamlanmış oturum (45 karar), iki sınıfı da içeren veri
   (`scripts/validate_data.py` ile doğrulanmış).
-- [ ] Gerçek veri eğitimi ve tüm kapıların geçmesi; sentetik sonuçla karıştırılmaması.
+- [ ] Gerçek veri eval kapısı (mevcut aday 0.333 doğrulukla 0.75 eşiğini geçemedi).
+  Yeni ve çeşitli gerçek oturumlar toplanmadan model/HF yayını yapılmamalı.
 - [ ] HF public repo ve commit'e sabit model URL'si.
 - [x] v2 canlı uygulama GitHub Pages'te yayında.
 - [ ] Teslimden önce gizli pencerede dört teslim bağlantısının son kontrolü.

@@ -2,10 +2,16 @@
 
 ## Gerçek durum
 v2 GitHub Pages'te yayında: https://kurtulusyuksel.github.io/SE-Primer-v2/
-Gerçek oturum henüz yok (0/15). İlk artefakt açıkça sentetik demo (`status=synthetic-demo`).
+15 gerçek oturum / 45 karar `data/oturumlar.csv` içinde doğrulandı. Kullanıcının beyanına göre
+oturumlar kendi gerçek kullanımlarından geliyor; 15 farklı katılımcı olduğu ileri sürülmüyor.
+Gerçek veri adayı seed=42 oturum holdout'unda accuracy=0.333 verdi (12 test satırı, 4 oturum)
+ve 0.75 eval eşiğinde reddedildi. Yeni artefakt yazılmadı; çalışan model açıkça sentetik demo
+(`status=synthetic-demo`) olarak kaldı.
 Hugging Face public repo/commit yayını henüz yapılmadı; `public/model-release.json` yerel
 artefaktı gösteriyor. AI Studio'daki v1 adresi v2 değişikliklerini içermez.
-Canlı yayın, gerçek veri kapısının veya HF yayınının tamamlandığı anlamına gelmez.
+Gerçek veri modelinin eval kapısı ve HF yayını tamamlanmış değildir. `ipucu_sayisi` mevcut
+45 satırın tamamında 0 olup ayırt edici özellik değildir. Daha çeşitli ve bağımsız kullanıcı
+oturumları toplanmadan başarı ya da genelleme iddiası kurulmaz; kabul eşiği değiştirilmez.
 
 v2: gönüllü veri toplama, karar öncesi öz bildirim etiketi, gruplanmış holdout,
 StandardScaler+LogisticRegression, ONNX sözleşmesi, Python/WASM paritesi ve kriz freni.

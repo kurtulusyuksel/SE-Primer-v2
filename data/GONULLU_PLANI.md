@@ -3,6 +3,14 @@
 Bu dosya gönüllü bulma ve veriyi eksiksiz toplama içindir. Oturumlar bu makinede
 uydurulmaz; her satır gerçek bir gönüllünün oynadığı oyundan gelir.
 
+## Güncel veri durumu — 4 Kasım 2026
+
+`data/oturumlar.csv` içinde 15 tamamlanmış oturum / 45 karar satırı vardır; iki etiket
+de mevcuttur. Kullanıcı bu oturumları kendi gerçek kullanımıyla kaydettiğini bildirmiştir;
+15 farklı katılımcı oldukları iddia edilmez. Eğitim holdout doğruluğu 0.333 olduğundan
+eval kapısı geçilmedi. Yeni katılımcı ve daha çeşitli davranışlardan veri toplama sürmelidir.
+Etiket veya kararlar model eşiğini geçsin diye yönlendirilmemelidir.
+
 ## Hedef
 
 - 15 **tamamlanmış** oturum = 45 karar satırı.

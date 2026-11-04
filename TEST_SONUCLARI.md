@@ -1,6 +1,7 @@
-# Yerel doğrulama sonuçları — 2 Kasım 2026
+# Yerel doğrulama sonuçları — 4 Kasım 2026
 
-Bu rapor yerel v2 adayına aittir; canlı uygulama veya gerçek kullanıcı deneyi değildir.
+Bu rapor yerel v2 adayına aittir; canlı uygulama performansı ya da öğretim faydası iddiası
+değildir. Gerçek oturum sayısı ve eval denemesi aşağıdaki CSV ve komut çıktısından alınmıştır.
 
 | Kontrol | Sonuç |
 |---|---|
@@ -16,7 +17,11 @@ Bu rapor yerel v2 adayına aittir; canlı uygulama veya gerçek kullanıcı dene
 | ONNX modeli | 5 özellik, StandardScaler + LogisticRegression |
 | Sentetik holdout doğruluğu (karar eşiği 0.60) | 0.9055555556 |
 | sklearn -> ONNX maksimum mutlak fark | 1.3763748297e-7 (<1e-4) |
-| Gerçek oturum sayısı | 0; başarı iddiası yok |
+| Gerçek CSV | 15 tamamlanmış oturum / 45 satır; kaynak=gercek; etiketler 27/18 |
+| Gerçek veri validator | 15/15 tamamlandı; UUID/sahne/özellik/sınıf kapıları geçti; `ipucu_sayisi` sabit uyarısı |
+| Gerçek veri eval denemesi | GroupShuffleSplit seed=42; holdout 4 oturum / 12 satır; accuracy=0.333333 (<0.75), reddedildi |
+| Reddedilen adayın yan etkisi | Model/config yazılmadı; sentetik demo ONNX ve Python oracle hash/paritesi korundu |
+| Gerçek kullanıcı genellemesi | 15 oturum kullanıcının kendi kullanımından; 15 farklı katılımcı değildir |
 
 Eğitim testleri boş gerçek verinin reddini, başarısız eval'in önceki artefaktı korumasını
 ve aynı veri/seed/bağımlılıklarla birebir aynı model+metriklerin üretilmesini doğruladı.
@@ -61,5 +66,10 @@ Veri kapısı doğrulayıcısı (`scripts/validate_data.py`) boş dosyayı, 14 o
 sahneyi, aralık dışı özelliği, tek sınıfı ve yanlış kaynağı reddetti; 15 tamamlanmış oturumu
 (45 satır) kabul etti. `scripts/delivery_check.py` eksik kapıları tek raporda gösteriyor.
 
-Bekleyenler: 15 gerçek oturum, gerçek veri eval kapısı, HF public repo/commit,
-60–90 saniyelik insan tarafından sunulan demo video.
+Gerçek veri adayının tekrarlanan eğitim komutu önceden belirlenmiş eşiği yine reddetti
+(accuracy=0.333333). `ipucu_sayisi` tüm gerçek satırlarda 0'dır; mevcut örneklem küçük ve
+tek kullanıcılı olduğundan adayın yeni verilerle değerlendirilmesi gerekir.
+
+Bekleyenler: daha çeşitli gerçek oturumlarla eval kapısını geçmek, HF public repo/commit ve
+60–90 saniyelik insan tarafından sunulan demo video. Eşik düşürülmemeli; sentetik model
+gerçek veri modeli gibi yayımlanmamalı.
