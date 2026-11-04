@@ -1,0 +1,8 @@
+{
+  "source": "huggingface",
+  "mode": "active",
+  "percentage": 100,
+  "kind": "synthetic-demo",
+  "repo_id": "kurtulus7182/SEPrimer",
+  "revision": "237b231a5167f8ee0ff4ad59b2b4ac763d6604a9"
+}
