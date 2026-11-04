@@ -1,26 +1,32 @@
 # v2.0 — Kriz freni sürüm planı
 
 ## Gerçek durum
-> **4 Kasım 2026 akşamı veri sıfırlandı.** Eski 30 oturumluk gerçek veri yalnız çalışma
-> dosyasından kaldırıldı; Git geçmişi silinmedi. `data/oturumlar.csv` şu an yalnız başlık
-> satırı içeriyor. Kullanıcı 15 tamamlanmış oturumu kendisi yeniden oynayacak. Yeni veri
-> gelene kadar gerçek veri eğitimi, eval kapısı ve HF gerçek model yayını kapalıdır.
+> **4 Kasım 2026: iki toplama turu da eval kapısını geçemedi.** Eski 30 oturumluk veri
+> çalışma dosyasından kaldırıldı (Git geçmişi silinmedi) ve yerine 15 oturumluk ikinci tur
+> toplandı. İkinci turda 45 satırın 44'ü 0 etiketli, süreler 1–4 sn ve `ipucu_sayisi` tüm
+> satırlarda 0. `train.py` holdout'ta iki sınıfı da bulamadığı için eğitimi reddetti.
+> Gerçek veri modeli yok; HF'de yalnız açık etiketli sentetik demo var.
 
 v2 GitHub Pages'te yayında: https://kurtulusyuksel.github.io/SE-Primer-v2/
-Önceki 30 oturumluk deneme (artık çalışma dosyasında yok) iki dışa aktarımda UUID
-çakışması olmadan birleştirilmişti. Kullanıcının beyanına göre oturumlar kendi gerçek
-kullanımlarından geliyordu; 30 farklı katılımcı olduğu ileri sürülmüyordu. Birleştirilmiş
-aday seed=42 oturum holdout'unda accuracy=0.791667 verdi (24 test satırı, 8 oturum), fakat
-24 satırın tamamını 0 olarak tahmin etti (TN=19, FN=5) ve ilk üç altın örnekte beklenen
-`[1,0,1]` yerine `[0,0,0]` üretti. Altın kabul kapısı adayı reddetti. Yeni artefakt
-yazılmadı; çalışan model açıkça sentetik demo (`status=synthetic-demo`) olarak kaldı.
+İkinci tur `data/oturumlar.csv` içinde: 15 tamamlanmış oturum / 45 satır. Yapısal kapılar
+geçti ancak ayırt edicilik yok: etiket 44×0 / 1×1, 14 oturum tamamen 0, 45 satır yalnız
+15 benzersiz özellik vektörü, 36 satır 1 sn. `train.py` "Eğitim ve testte iki sınıf da
+bulunmalı" hatasıyla reddetti; model/ONNX yazılmadı.
+
+Önceki 30 oturumluk deneme iki dışa aktarımda UUID çakışması olmadan birleştirilmişti.
+Kullanıcının beyanına göre oturumlar kendi gerçek kullanımlarından geliyordu; 30 farklı
+katılımcı olduğu ileri sürülmüyordu. Birleştirilmiş aday seed=42 oturum holdout'unda
+accuracy=0.791667 verdi (24 test satırı, 8 oturum), fakat 24 satırın tamamını 0 olarak
+tahmin etti (TN=19, FN=5) ve ilk üç altın örnekte beklenen `[1,0,1]` yerine `[0,0,0]`
+üretti. Altın kabul kapısı adayı reddetti. Yeni artefakt yazılmadı; çalışan model açıkça
+sentetik demo (`status=synthetic-demo`) olarak kaldı.
 Hugging Face'te sentetik demo açık etiketle yayınlandı:
-`kurtulus7182/SEPrimer@2e720cf8bdf86b26c4584371b18475cc10d00df1`;
-`public/model-release.json` bu commit'i gösteriyor. Eval kapısı geçilirse aynı repo gerçek
-adayla güncellenecek. AI Studio'daki v1 adresi v2 değişikliklerini içermez.
-Önceki denemede `ipucu_sayisi` 90 satırın tamamında 0 olup ayırt edici özellik değildi.
-Yeni 15 oturum tek kullanıcıdan toplanacağı için sonuç yalnız o kişiye ait olur; geniş
-kullanıcı kitlesine genelleme iddiası kurulmaz ve kabul eşiği değiştirilmez.
+`kurtulus7182/SEPrimer`; `public/model-release.json` güncel commit'i gösteriyor.
+Eval kapısı geçilirse aynı repo gerçek adayla güncellenecek. AI Studio'daki v1 adresi v2
+değişikliklerini içermez.
+Her iki denemede de `ipucu_sayisi` tüm satırlarda 0 olup ayırt edici özellik değildi.
+15 oturum tek kullanıcıdan toplandığı için sonuç yalnız o kişiye ait olur; geniş kullanıcı
+kitlesine genelleme iddiası kurulmaz ve kabul eşiği değiştirilmez.
 
 Kök neden (önceki veri, `scripts/analyze_eval.py`): 90 satır yalnız 30 benzersiz özellik
 vektörüne indirgeniyordu; 60 satır birebir tekrar ve 12 vektör aynı girdiyle çelişkili
@@ -91,4 +97,11 @@ Model boyutu gerçek dosyadan ölçülür; runtime modelden çok daha büyüktü
 - Model: https://huggingface.co/kurtulus7182/SEPrimer/resolve/2e720cf8bdf86b26c4584371b18475cc10d00df1/model.onnx
 - Canlı yayın: https://kurtulusyuksel.github.io/SE-Primer-v2/ (manifest bu commit'i gösterir;
   4 Kasım 2026 canlı duman testi gerçek WASM ile 1/1 geçti).
+- Bu yayın model eval kapısını geçmez; gerçek kullanıcı başarımı iddiası taşımaz.
+
+## Yayınlanan sentetik demo
+- Repo: https://huggingface.co/kurtulus7182/SEPrimer
+- Commit: `5c3a5043bb18cfecad4a362e99e5a89e55660b7b`
+- Mod: active (yalnız demo; gerçek veri modeli değildir).
+- Model: https://huggingface.co/kurtulus7182/SEPrimer/resolve/5c3a5043bb18cfecad4a362e99e5a89e55660b7b/model.onnx
 - Bu yayın model eval kapısını geçmez; gerçek kullanıcı başarımı iddiası taşımaz.

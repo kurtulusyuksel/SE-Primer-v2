@@ -3,11 +3,10 @@
 Bu rapor yerel v2 adayına aittir; canlı uygulama performansı ya da öğretim faydası iddiası
 değildir. Gerçek oturum sayısı ve eval denemesi aşağıdaki CSV ve komut çıktısından alınmıştır.
 
-> **Tarihsel kayıt.** Bu tablodaki 30 oturum / 90 satırlık gerçek veri 4 Kasım 2026 akşamı
-> çalışma dosyasından kaldırıldı; `data/oturumlar.csv` artık yalnız başlık içeriyor.
-> Kullanıcı 15 oturumu kendisi yeniden toplayacak. Aşağıdaki gerçek veri, holdout ve model
-> eval satırları **önceki denemeyi** belgeler; yeni veri için yeniden çalıştırılmalıdır.
-> Sentetik demo, HF yayını, parite ve tarayıcı testleri hâlâ geçerlidir.
+> **Tarihsel kayıt.** Bu tablodaki 30 oturum / 90 satırlık gerçek veri 4 Kasım 2026'da
+> çalışma dosyasından kaldırıldı; yerine 15 oturumluk ikinci tur geldi (aşağıdaki ayrı
+> bölüm). Aşağıdaki gerçek veri, holdout ve model eval satırları **önceki denemeyi**
+> belgeler. Sentetik demo, HF yayını, parite ve tarayıcı testleri hâlâ geçerlidir.
 
 | Kontrol | Sonuç |
 |---|---|
@@ -51,6 +50,24 @@ Holdout'taki 24 satırın 20'sinin birebir aynı vektörü eğitimde de var. `ka
 1–21 sn (8 değer) iken altın örnekler 40–55 sn; model bu bandı eğitimde hiç görmedi.
 Katsayılar süre ve önceki yanlış için negatif; yani bu örneklem "uzun süre → yardım"
 varsayımını desteklemiyor. Eşik düşürülmedi, aday artefakt yazılmadı.
+
+## İkinci toplama turu — 15 oturum (4 Kasım 2026)
+
+| Kontrol | Sonuç |
+|---|---|
+| Yapı | 15 tamamlanmış oturum / 45 satır; 15/15/15 sahne dağılımı |
+| Etiket | 44 × 0, 1 × 1; 14 oturumun tamamı 0 |
+| Süre | 1 sn × 36, 2 sn × 7, 3 sn × 1, 4 sn × 1 |
+| `ipucu_sayisi` | Tüm satırlarda 0 |
+| `onceki_yanlis_sayisi` | Yalnız 0 ve 1; hiç 2 değil |
+| Benzersiz vektör | 45 satırda 15 vektör; 30 satır birebir tekrar |
+| `validate_data.py` | Yapısal kapılar geçti; “ayırt edicilik zayıf”, 30 tekrar, 1 çelişkili vektör uyarısı |
+| `train.py` | Reddetti: “Eğitim ve testte iki sınıf da bulunmalı; daha çeşitli veri toplayın.” |
+| Artefakt etkisi | Model/ONNX/config yazılmadı; HF sentetik demo korundu |
+
+Bu turda altın kabul örnekleri hiç denenemedi: holdout'ta pozitif sınıf kalmadığı için eğitim
+daha erken durdu. Eşik, sınıf dengesi veya baseline kapısı düşürülmedi; veri yapay olarak
+dengelenmedi.
 
 Tarayıcı testleri gerçek ONNX Runtime Web WASM kullandı; model olasılıkları mock edilmedi.
 HTTP hatası/hash/manifest olumsuz testlerinde ilgili ağ kaynağı kontrollü değiştirildi.

@@ -6,19 +6,24 @@ Oturumlar bu makinede uydurulmaz; her satır gerçek bir oyundan gelir.
 
 ## Güncel veri durumu — 4 Kasım 2026
 
-**Veri sıfırlandı.** Önceki 30 oturumluk / 90 satırlık gerçek veri yalnız çalışma dosyasından
-kaldırıldı; Git geçmişi silinmedi. `data/oturumlar.csv` şu an yalnız başlık satırı içeriyor.
-Kullanıcı 15 tamamlanmış oturumu kendisi yeniden oynayarak toplayacak. Yeni veri gelene kadar
-gerçek veri eğitimi ve HF gerçek model yayını kapalıdır.
+**İkinci tur toplandı; eval kapısını geçemedi.** `data/oturumlar.csv` içinde 15 tamamlanmış
+oturum / 45 satır var. Yapısal kapılar geçti, ancak etiketlerin 44'ü 0, yalnız 1'i 1;
+14 oturumun tamamı 0 etiketli. Kararlar 1–4 saniyede verildi, `ipucu_sayisi` tüm satırlarda 0
+ve 45 satır yalnız 15 benzersiz özellik vektörü üretiyor. `train.py` holdout'ta iki sınıfı da
+bulamadığı için eğitimi reddetti; gerçek model yayınlanmadı. HF'de yalnız açık etiketli
+sentetik demo var.
 
-Önceki deneme (tarihsel): iki UUID-çakışmasız dışa aktarımdan birleştirilmiş 30 oturumda
-holdout doğruluğu 0.791667 görünse de model tüm holdout kararlarını 0 tahmin etti ve ilk üç
-altın örneği geçemedi; eval kapısı reddedildi. Kök neden (`scripts/analyze_eval.py`): 90 satır
-yalnız 30 benzersiz özellik vektörü üretiyordu, 12 vektör çelişkili ve çoğunluk tavanı 0.7778
-idi. Süreler 1–21 sn (8 değer) iken altın örnekler 40–55 sn. Bu yüzden yalnız aynı kişiden
-daha fazla oturum toplamak genellemeyi kanıtlamaz; yeni 15 oturum da tek kullanıcıdan
-toplanacağı için sonuç yalnız o kişiye ait olur. Etiket veya kararlar model eşiğini geçsin
-diye yönlendirilmemelidir.
+Önceki 30 oturumluk deneme (tarihsel): iki UUID-çakışmasız dışa aktarımdan birleştirilmiş
+30 oturumda holdout doğruluğu 0.791667 görünse de model tüm holdout kararlarını 0 tahmin etti
+ve ilk üç altın örneği geçemedi; eval kapısı reddedildi. Kök neden
+(`scripts/analyze_eval.py`): 90 satır yalnız 30 benzersiz özellik vektörü üretiyordu,
+12 vektör çelişkili ve çoğunluk tavanı 0.7778 idi. Süreler 1–21 sn (8 değer) iken altın
+örnekler 40–55 sn.
+
+Ders: aynı kişiden hızlı tıklamayla toplanan oturumlar öğrenilebilir sinyal üretmiyor.
+Yeni bir tur gerekirse sahne metni gerçekten okunmalı, etiket dürüstçe ve düşünerek
+seçilmeli, mentor/ipucu bazen kullanılmalı ve profil dönüşümlü olmalı. Etiket veya kararlar
+model eşiğini geçsin diye yönlendirilmemelidir.
 
 ## Başlamadan önce: tarayıcıyı temizle
 

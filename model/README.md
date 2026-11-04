@@ -17,7 +17,9 @@ model-index:
 > **Sentetik demo (`synthetic-demo`):** Bu artefakt yalnız `scripts/generate_demo.py`
 > tarafından üretilen sentetik veriyle eğitilmiştir. Gerçek kullanıcı verisiyle
 > eğitilmedi; gerçek öğrenci başarımı, genelleme veya üretim kullanımı iddiası taşımaz.
-> Gerçek veri adayı eval kapısını geçemediği için yayınlanmamıştır.
+> 4 Kasım 2026'da 15 oturumluk gerçek veri toplandı, ancak 45 satırın 44'ü 0 etiketli
+> olduğu ve holdout'ta iki sınıf kalmadığı için `train.py` adayı reddetti. Bu nedenle
+> gerçek veri modeli yayınlanmadı; bu karttaki model sentetik demodur.
 
 ## Amaç
 Muhteşem Cuma ödeme krizi oyununda oyuncunun yönlendirici ipucu isteyip istemediğini
@@ -32,6 +34,8 @@ gerçek kullanıcılarda başarı demek değildir. 240 sentetik oturumun üretic
 `scripts/generate_demo.py` dosyasında; veri sözlüğünde açık kuralı yazılıdır.
 Gerçek veri adayı yalnız en az 15 tamamlanmış gerçek oturumdan eğitilebilir.
 Etiket karar öncesi öz bildirimdir; modelden veya A/B sonucundan üretilmez.
+4 Kasım 2026'daki 15 oturumluk tur bu kapıyı geçemedi: etiket 44×0 / 1×1, süre 1–4 sn,
+`ipucu_sayisi` tüm satırlarda 0. Veri yapay olarak dengelenmedi ve eşik düşürülmedi.
 
 Holdout oturum bazlı %25; seed=42. Test doğruluğu `p>=0.60` kararıyla hesaplanır.
 Kabul kapısı accuracy>=0.75. Her iki sınıf hem eğitim hem testte bulunmalıdır.

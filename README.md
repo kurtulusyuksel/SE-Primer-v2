@@ -88,15 +88,17 @@ MVP kapsamı ve önceliklendirme doğrultusunda aşağıdaki özellikler ilk sü
 
 **Depo:** https://github.com/kurtulusyuksel/SE-Primer-v2  
 **Canlı v2:** https://kurtulusyuksel.github.io/SE-Primer-v2/  
-**Durum:** v2 GitHub Pages'te yayında. 4 Kasım 2026 akşamı eski 30 oturumluk veri
-çalışma dosyasından kaldırıldı; `data/oturumlar.csv` yalnız başlık satırı içeriyor.
-Kullanıcı 15 tamamlanmış oturumu kendisi yeniden oynayarak toplayacak. Yeni veri
-gelene kadar gerçek veri eğitimi/yayını kapalı. Önceki 30 oturumluk denemenin kök neden
-analizi `TEST_SONUCLARI.md` ve `scripts/analyze_eval.py` içinde tarihsel kayıt olarak duruyor.
+**Durum:** v2 GitHub Pages'te yayında. 4 Kasım 2026'da eski 30 oturumluk veri çalışma
+dosyasından kaldırıldı ve 15 oturumluk ikinci tur toplandı (`data/oturumlar.csv`, 45 satır).
+Ancak ikinci turda etiketlerin 44'ü "kendim ilerleyebilirim", yalnız 1'i "yardım gerekli"
+çıktı; kararlar 1–4 saniyede verildi ve `ipucu_sayisi` tüm satırlarda 0. `train.py` bu veriyi
+"eğitim ve testte iki sınıf da bulunmalı" kapısında reddetti; gerçek model eğitilmedi ve
+yayınlanmadı. Önceki 30 oturumluk denemenin kök neden analizi `TEST_SONUCLARI.md` ve
+`scripts/analyze_eval.py` içinde tarihsel kayıt olarak duruyor.
 Çalışan artefakt sentetik demo olarak kaldı ve açık etiketle HF'de yayınlandı:
-[kurtulus7182/SEPrimer](https://huggingface.co/kurtulus7182/SEPrimer) —
-commit `2e720cf8bdf86b26c4584371b18475cc10d00df1`. Bu bir gerçek veri modeli değildir;
-eval kapısı geçilirse aynı repo gerçek adayla güncellenecek. 60–90 sn demo video bekliyor.
+[kurtulus7182/SEPrimer](https://huggingface.co/kurtulus7182/SEPrimer).
+Bu bir gerçek veri modeli değildir; eval kapısı geçilirse aynı repo gerçek adayla
+güncellenecek. 60–90 sn demo video bekliyor.
 AI Studio'daki v1 adresi bu değişiklikleri içermez.
 
 Model mentorun **ne zaman** açılacağını belirler; Gemini mentorun konuşma üretiminden
@@ -124,11 +126,12 @@ Etiket her sahnede ayrı sorulur çünkü her oturum üç bağımsız satır ür
 45 satırlık veri sözleşmesini bozar.
 Üç sahneyi bitirin; ana ekrana dönüp CSV indirin. Oyun sırasında üstte “Kayıt açık —
 bu oturumda 2/3 karar kaydedildi” durumu görünür; mod sekme yenilenince açık kalır.
-En az 15 tamamlanmış gerçek oturumu `data/oturumlar.csv` olarak kaydedin. Dosya şu an
-yalnız başlık içeriyor; toplama yeniden başlatıldı. Yeni oyuna başlamadan önce ana
-ekrandaki **Kayıtları sil** düğmesiyle tarayıcıdaki eski 30 oturumu temizleyin; aksi
-halde yeni CSV eski kayıtları da içerir. 15 oturum tek kişiden toplanırsa sonuçlar
-yalnız o kişiye ait olur; geniş kullanıcı kitlesine genelleme iddiası çıkarılamaz.
+En az 15 tamamlanmış gerçek oturumu `data/oturumlar.csv` olarak kaydedin. Dosyada 4 Kasım
+2026 itibarıyla 15 tamamlanmış oturum / 45 satır var; ancak etiketlerin 44'ü 0 olduğu için
+veri şu an eğitime uygun değil. Yeni bir tur toplanacaksa önce ana ekrandaki
+**Kayıtları sil** düğmesiyle tarayıcıdaki eski kayıtları temizleyin; aksi halde yeni CSV
+eski kayıtları da içerir. 15 oturum tek kişiden toplanırsa sonuçlar yalnız o kişiye ait
+olur; geniş kullanıcı kitlesine genelleme iddiası çıkarılamaz.
 Ayrıntılar `data/SOZLUK.md`; gönüllü mesajı ve ilerleme tablosu
 `data/GONULLU_PLANI.md`.
 
@@ -235,13 +238,26 @@ Analizi tekrar üretmek için:
 .\.venv\Scripts\python.exe scripts/analyze_eval.py
 ```
 
+**İkinci toplama turu — 15 oturum (4 Kasım 2026, akşam).** Yeni CSV yapısal kapıları geçti:
+15 tamamlanmış oturum, 45 satır, her sahnede 15 satır. Ancak:
+
+- Etiket dağılımı **44 × 0, 1 × 1**; 14 oturumun tamamı 0 etiketli.
+- `karar_suresi_sn` 36 satırda 1 sn, 7 satırda 2 sn; en uzun 4 sn. Altın örnekler 40–55 sn.
+- `ipucu_sayisi` 45 satırın tamamında 0; `onceki_yanlis_sayisi` hiç 2 değil.
+- 45 satır yalnız **15 benzersiz özellik vektörü** üretiyor; 30 satır birebir tekrar.
+- `train.py` holdout'ta iki sınıfı da bulamadı ve **"Eğitim ve testte iki sınıf da bulunmalı"**
+  hatasıyla reddetti. Model/ONNX yazılmadı; HF'deki sentetik demo korundu.
+
+Bu tur, hedefin tek kullanıcıdan ve hızlı tıklamayla toplandığında öğrenilebilir olmadığını
+gösteriyor. Eşik veya sınıf dengesi kapısı düşürülmedi.
+
 Üretici seed=42 ve kuralı `data/SOZLUK.md` içinde. Sentetik veri gerçek CSV'ye yazılmaz.
 Accuracy>=0.75 kabul eşiği `spec.md` ve `model/contract.json` içinde eğitimden önce tanımlıdır;
 inference karar eşiği 0.60'tır. Bunlar farklı kavramlardır. Split oturum bazlıdır.
 Ayrıca `train.py`, holdout'ta tek sınıfı tahmin eden **çoğunluk baseline'ını** hesaplar ve
 modelin bunu kesin olarak aşmasını ister; eşitlik de reddedilir. Önceki 30 oturumluk denemede
-accuracy = baseline = 0.791667 olduğu için aday bu kapıda durmuştu; yeni 15 oturumda aynı
-kapı aynen uygulanacak.
+accuracy = baseline = 0.791667 olduğu için aday bu kapıda durmuştu; ikinci turda holdout'ta
+tek sınıf kaldığı için eğitim daha erken reddedildi.
 
 ### Testler
 
@@ -335,11 +351,11 @@ ailesi için raporlanır ve "8 yolun tamamı öğrenildi" gibi bir iddia kurulma
 
 ### Teslimde kalanlar
 
-- [ ] Kullanıcının kendisinin yeniden oynayacağı 15 gerçek tamamlanmış oturum (45 karar),
-  iki sınıfı da içeren veri (`scripts/validate_data.py` ile doğrulanacak). Veri 4 Kasım
-  2026'da sıfırlandı; toplama henüz başlamadı.
-- [ ] Gerçek veri eval kapısı (önceki 30 oturumluk aday çoğunluk sınıfını tahmin etti ve altın
-  örnekleri geçemedi). Yeni gerçek oturumlar toplanmadan model/HF yayını yapılmamalı.
+- [x] Kullanıcının kendisinin oynadığı 15 gerçek tamamlanmış oturum (45 karar) toplandı.
+  Ancak etiketler 44/45 sıfır ve süreler 1–4 sn; veri ayırt edici değil.
+- [ ] Gerçek veri eval kapısı (ikinci tur `train.py` tarafından sınıf dengesi kapısında
+  reddedildi; model/ONNX yazılmadı). Geçerli, dengeli gerçek oturumlar toplanmadan
+  model/HF yayını yapılmamalı.
 - [x] HF public demo repo ve commit'e sabit model URL'si
   (`kurtulus7182/SEPrimer@2e720cf…`; sentetik demo, gerçek veri modeli değil).
 - [x] v2 canlı uygulama GitHub Pages'te yayında.

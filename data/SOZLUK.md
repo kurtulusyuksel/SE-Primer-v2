@@ -15,9 +15,10 @@ Her satır bir karar öncesi gözlemdir; her tamamlanmış oturum 3 satırdır.
 
 ## Gerçek veri toplama
 
-> **4 Kasım 2026: veri sıfırlandı.** `data/oturumlar.csv` yalnız başlık satırı içeriyor.
-> Kullanıcı 15 oturumu kendisi yeniden toplayacak. Yeni oyuna başlamadan önce tarayıcıdaki
-> eski kayıtları **Kayıtları sil** düğmesiyle temizleyin.
+> **4 Kasım 2026: 15 oturumluk ikinci tur toplandı.** `data/oturumlar.csv` içinde 45 satır
+> var; ancak 44 etiket 0 ve süreler 1–4 sn olduğu için veri eğitime uygun değil. `train.py`
+> sınıf dengesi kapısında reddetti. Yeni bir tur toplanacaksa tarayıcıdaki eski kayıtları
+> **Kayıtları sil** düğmesiyle temizleyin.
 
 1. Ana ekranda gönüllülük metnini okuyup **“Gerçek oturum veri toplama modu”** kutusunu işaretleyin.
    Kutu boşsa oyun kaydedilmez; oyun sırasında üstte “Kayıt kapalı” uyarısı görünür.

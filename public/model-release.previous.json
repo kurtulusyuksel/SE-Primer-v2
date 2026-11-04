@@ -1,7 +1,8 @@
 {
-  "source": "local",
+  "source": "huggingface",
   "mode": "active",
   "percentage": 100,
-  "repo_id": null,
-  "revision": null
+  "kind": "synthetic-demo",
+  "repo_id": "kurtulus7182/SEPrimer",
+  "revision": "2e720cf8bdf86b26c4584371b18475cc10d00df1"
 }
