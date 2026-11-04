@@ -230,6 +230,9 @@ Analizi tekrar üretmek için:
 Üretici seed=42 ve kuralı `data/SOZLUK.md` içinde. Sentetik veri gerçek CSV'ye yazılmaz.
 Accuracy>=0.75 kabul eşiği `spec.md` ve `model/contract.json` içinde eğitimden önce tanımlıdır;
 inference karar eşiği 0.60'tır. Bunlar farklı kavramlardır. Split oturum bazlıdır.
+Ayrıca `train.py`, holdout'ta tek sınıfı tahmin eden **çoğunluk baseline'ını** hesaplar ve
+modelin bunu kesin olarak aşmasını ister; eşitlik de reddedilir. Mevcut gerçek veride
+accuracy = baseline = 0.791667 olduğu için aday bu kapıda durur.
 
 ### Testler
 

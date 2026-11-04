@@ -21,6 +21,7 @@ değildir. Gerçek oturum sayısı ve eval denemesi aşağıdaki CSV ve komut ç
 | Gerçek veri validator | 30/30 tamamlandı; UUID/sahne/özellik/sınıf kapıları geçti; `ipucu_sayisi` sabit, 60 tekrar ve 12 çelişkili vektör uyarısı |
 | Gerçek veri eval denemesi | GroupShuffleSplit seed=42; holdout 8 oturum / 24 satır; accuracy=0.791667 |
 | Holdout hata profili | TN=19, FP=0, FN=5, TP=0; model tüm holdout satırlarını 0 tahmin etti |
+| Çoğunluk baseline kapısı | Holdout baseline=19/24=0.791667; accuracy eşit olduğu için `train.py` reddetti |
 | Altın kabul örnekleri | Beklenen `[1,0,1]`; üretilen `[0,0,0]`; yayın kapısı reddetti |
 | Reddedilen adayın yan etkisi | Model/config yazılmadı; sentetik demo ONNX ve Python oracle hash/paritesi korundu |
 | Gerçek kullanıcı genellemesi | 30 oturum kullanıcının kendi kullanımından; 30 farklı katılımcı değildir |

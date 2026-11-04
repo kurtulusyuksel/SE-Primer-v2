@@ -30,7 +30,8 @@ soru tonu ve riskte deneyimli profilde süre baskısının kaldırılması. Gemi
 
 ## Yayın kapıları
 1. >=15 tamamlanmış gerçek oturum, her oturum 3 sahne; CSV kaynak=gercek.
-2. `train.py`: oturum ayrımı, accuracy>=0.75, kabul örnekleri, sklearn/ONNX farkı<1e-4.
+2. `train.py`: oturum ayrımı, accuracy>=0.75, çoğunluk baseline'ını kesin aşma, kabul
+   örnekleri, sklearn/ONNX farkı<1e-4.
 3. Python oracle, Cypress regresyon/parite, lint/build geçmeli.
 4. HF hesabında `hf auth login`; sonra README'deki yayınlama komutu.
    Betik public repo oluşturur ve model/config/kartı birlikte yükler; anahtar yazdırmaz.

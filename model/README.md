@@ -29,6 +29,8 @@ Etiket karar öncesi öz bildirimdir; modelden veya A/B sonucundan üretilmez.
 
 Holdout oturum bazlı %25; seed=42. Test doğruluğu `p>=0.60` kararıyla hesaplanır.
 Kabul kapısı accuracy>=0.75. Her iki sınıf hem eğitim hem testte bulunmalıdır.
+Ayrıca holdout çoğunluk baseline'ı hesaplanır; model bunu kesin olarak aşmalıdır,
+eşitlik de reddedilir. Tek sınıfı tahmin eden model yayımlanmaz.
 ONNX/sklearn tüm veri ve referanslarda mutlak olasılık farkı <1e-4.
 Test kümesiyle model seçimi yapılmaz; başarısızlıkta daha çeşitli veri toplanır.
 

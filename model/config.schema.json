@@ -97,6 +97,11 @@
           "minimum": 0.75,
           "maximum": 1
         },
+        "majority_baseline": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
         "onnx_max_abs_error": {
           "type": "number",
           "minimum": 0,

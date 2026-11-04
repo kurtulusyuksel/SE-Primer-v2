@@ -66,9 +66,15 @@ def train(data=None, demo=False, output=None):
     model.fit(x[train_idx], y[train_idx])
     p = model.predict_proba(x[test_idx])[:, 1]
     accuracy = float(accuracy_score(y[test_idx], p >= CONTRACT['decision_threshold']))
+    # Tek bir sabit sınıf tahmin etmek de yüksek doğruluk verebilir; model bunu aşmalı.
+    majority_baseline = float(max(np.mean(y[test_idx] == 0), np.mean(y[test_idx] == 1)))
     print(f'Accuracy (p >= 0.60): {accuracy:.6f}; hedef >= {CONTRACT["acceptance_accuracy"]}')
+    print(f'Cogunluk baseline: {majority_baseline:.6f}; model bunun uzerinde olmali')
     if accuracy < CONTRACT['acceptance_accuracy']:
         raise ValueError('EVAL KAPISI REDDETTI: yeni model/artefakt yazilmadi.')
+    if accuracy <= majority_baseline:
+        raise ValueError('EVAL KAPISI REDDETTI: model cogunluk baseline ini asamadi; '
+                         'yeni model/artefakt yazilmadi.')
     classifier = model.steps[-1][1]
     onnx_model = convert_sklearn(model, name='PrimerKrizFreniV2', initial_types=[('features', FloatTensorType([None, 5]))],
         options={id(classifier): {'zipmap': False}}, target_opset=17)
@@ -92,7 +98,8 @@ def train(data=None, demo=False, output=None):
         'output': {'name': output_name, 'positive_class_index': 1},
         'model_sha256': hashlib.sha256(blob).hexdigest(),
         'data_sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
-        'metrics': {'accuracy': accuracy, 'onnx_max_abs_error': error,
+        'metrics': {'accuracy': accuracy, 'majority_baseline': majority_baseline,
+            'onnx_max_abs_error': error,
             'confusion_matrix': confusion_matrix(y[test_idx], p >= CONTRACT['decision_threshold']).tolist(),
             'train_sessions': len(set(groups[train_idx])), 'test_sessions': len(set(groups[test_idx])),
             'train_rows': len(train_idx), 'test_rows': len(test_idx),
