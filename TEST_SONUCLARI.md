@@ -12,7 +12,7 @@ değildir. Gerçek oturum sayısı ve eval denemesi aşağıdaki CSV ve komut ç
 | Cypress v2 model/parite/dağıtım/veri/mobil testleri | 11/11 geçti |
 | Ödev 6 regresyon E2E | 3/3 geçti |
 | Cypress tam yerel koşu | 14 geçti, 1 isteğe bağlı yayın testi atlandı |
-| GitHub Pages canlı duman testi | 1/1 geçti (gerçek WASM, canlı URL) |
+| GitHub Pages canlı duman testi | 1/1 geçti (gerçek WASM, canlı URL, HF manifesti ve model SHA doğrulandı) |
 | Veri kapısı doğrulayıcısı | İki yeni dışa aktarımı birleştirdi; 30 oturum / 90 satır kabul edildi |
 | ONNX modeli | 5 özellik, StandardScaler + LogisticRegression |
 | Sentetik holdout doğruluğu (karar eşiği 0.60) | 0.9055555556 |

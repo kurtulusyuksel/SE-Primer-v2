@@ -277,7 +277,9 @@ içine yazar ve shadow'da başlatır.
 resmi gerçek model deposuna (`kurtulus7182/se-primer-kriz-freni`) yazmayı reddeder.
 Repo adında `-demo` yoksa uyarı verir. Model kartı "sentetik demo" der, mod `active`
 olur ama gerçek başarım iddiası taşımaz. Bu yayın HF public repo/commit kapısını
-karşılar; model eval kapısını karşılamaz. Detaylar `RELEASE.md`. Token'ı repoya koymayın.
+karşılar; model eval kapısını karşılamaz. Canlı v2, `public/model-release.json`
+üzerinden bu commit'i yükler; 4 Kasım 2026 canlı duman testi gerçek WASM ile 1/1
+geçti ve model SHA'sı doğrulandı. Detaylar `RELEASE.md`. Token'ı repoya koymayın.
 
 ### GitHub Pages yayını
 

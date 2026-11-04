@@ -84,4 +84,6 @@ Model boyutu gerçek dosyadan ölçülür; runtime modelden çok daha büyüktü
 - Commit: `2e720cf8bdf86b26c4584371b18475cc10d00df1`
 - Mod: active (yalnız demo; gerçek veri modeli değildir).
 - Model: https://huggingface.co/kurtulus7182/SEPrimer/resolve/2e720cf8bdf86b26c4584371b18475cc10d00df1/model.onnx
+- Canlı yayın: https://kurtulusyuksel.github.io/SE-Primer-v2/ (manifest bu commit'i gösterir;
+  4 Kasım 2026 canlı duman testi gerçek WASM ile 1/1 geçti).
 - Bu yayın model eval kapısını geçmez; gerçek kullanıcı başarımı iddiası taşımaz.
