@@ -13,6 +13,11 @@ model-index:
 
 # SE Primer — Kriz freni model kartı
 
+> **Sentetik demo (`synthetic-demo`):** Bu artefakt yalnız `scripts/generate_demo.py`
+> tarafından üretilen sentetik veriyle eğitilmiştir. Gerçek kullanıcı verisiyle
+> eğitilmedi; gerçek öğrenci başarımı, genelleme veya üretim kullanımı iddiası taşımaz.
+> Gerçek veri adayı eval kapısını geçemediği için yayınlanmamıştır.
+
 ## Amaç
 Muhteşem Cuma ödeme krizi oyununda oyuncunun yönlendirici ipucu isteyip istemediğini
 tahmin etmek. Lojistik regresyon + StandardScaler tek ONNX pipeline'ıdır. Ölçeklemeyi

@@ -252,17 +252,28 @@ ve otomatik kriz freni testleri vardır. Eski `simulation.cy.js` regresyon olara
 
 ### Hugging Face yayını
 
-Hesap: `kurtulus7182`. Repo henüz yok; aşağıdaki ad öneridir, `--repo` ile değiştirilebilir.
-Önce gerçek verili eğitim, model kartı, oracle ve E2E testleri tamamlanmalı.
+Hesap: `kurtulus7182`. İki ayrı yol var; ikisi de aynı betiği kullanır.
+
+**Gerçek aday** (yalnız eval kapısı geçince):
 
 ```powershell
 .\.venv\Scripts\hf.exe auth login
 .\.venv\Scripts\python.exe scripts/publish_model.py --repo kurtulus7182/se-primer-kriz-freni
 ```
 
-Betik sentetik demoyu yayınlamaz. Gerçek adayı public modele yükler; commit SHA'yı
-`public/model-release.json` içine yazar ve shadow'da başlatır. Detaylar `RELEASE.md`.
-Canlı uygulamayı bu değişikliklerle ayrıca yeniden yayınlayın. Token'ı repoya koymayın.
+Betik gerçek adayı public modele yükler; commit SHA'yı `public/model-release.json`
+içine yazar ve shadow'da başlatır.
+
+**Sentetik demo** (mevcut durum; açık etiketli):
+
+```powershell
+.\.venv\Scripts\python.exe scripts/publish_model.py --demo --repo kurtulus7182/se-primer-kriz-freni-demo
+```
+
+`--demo` yalnız `status=synthetic-demo` ve `real_sessions=0` artefaktını kabul eder;
+repo adı `-demo` ile bitmelidir. Model kartı "sentetik demo" der, mod `active` olur ama
+gerçek başarım iddiası taşımaz. Bu yayın HF public repo/commit kapısını karşılar;
+model eval kapısını karşılamaz. Detaylar `RELEASE.md`. Token'ı repoya koymayın.
 
 ### GitHub Pages yayını
 
