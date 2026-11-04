@@ -9,8 +9,10 @@ accuracy=0.791667 verdi (24 test satırı, 8 oturum), fakat 24 satırın tamamı
 etti (TN=19, FN=5) ve ilk üç altın örnekte beklenen `[1,0,1]` yerine `[0,0,0]` üretti.
 Altın kabul kapısı adayı reddetti. Yeni artefakt yazılmadı; çalışan model açıkça sentetik demo
 (`status=synthetic-demo`) olarak kaldı.
-Hugging Face public repo/commit yayını henüz yapılmadı; `public/model-release.json` yerel
-artefaktı gösteriyor. AI Studio'daki v1 adresi v2 değişikliklerini içermez.
+Hugging Face'te sentetik demo açık etiketle yayınlandı:
+`kurtulus7182/SEPrimer@2e720cf8bdf86b26c4584371b18475cc10d00df1`;
+`public/model-release.json` bu commit'i gösteriyor. Gerçek veri adayı eval kapısını
+geçmediği için HF'ye yüklenmedi. AI Studio'daki v1 adresi v2 değişikliklerini içermez.
 Gerçek veri modelinin eval kapısı ve HF yayını tamamlanmış değildir. `ipucu_sayisi` mevcut
 90 satırın tamamında 0 olup ayırt edici özellik değildir. Daha çeşitli ve bağımsız kullanıcı
 oturumları toplanmadan başarı ya da genelleme iddiası kurulmaz; kabul eşiği değiştirilmez.
@@ -76,3 +78,10 @@ Model boyutu gerçek dosyadan ölçülür; runtime modelden çok daha büyüktü
 - sklearn -> ONNX tensör olasılıkları: https://onnx.ai/sklearn-onnx/auto_tutorial/plot_dbegin_options_zipmap.html
 - HF commit sürümleme: https://huggingface.co/docs/huggingface_hub/guides/download
 - Grup ayrımı: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GroupShuffleSplit.html
+
+## Yayınlanan sentetik demo
+- Repo: https://huggingface.co/kurtulus7182/SEPrimer
+- Commit: `2e720cf8bdf86b26c4584371b18475cc10d00df1`
+- Mod: active (yalnız demo; gerçek veri modeli değildir).
+- Model: https://huggingface.co/kurtulus7182/SEPrimer/resolve/2e720cf8bdf86b26c4584371b18475cc10d00df1/model.onnx
+- Bu yayın model eval kapısını geçmez; gerçek kullanıcı başarımı iddiası taşımaz.

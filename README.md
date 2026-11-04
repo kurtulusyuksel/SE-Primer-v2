@@ -93,7 +93,10 @@ birleştirilmiş 30 tamamlanmış oturum / 90 karar var. Kullanıcı bu oturumla
 kullanımlarından geldiğini bildirdi; 30 farklı katılımcı oldukları iddia edilmiyor.
 Birleştirilmiş adayın holdout doğruluğu 0.792 olsa da 24 test kararının tamamını 0 tahmin ediyor
 ve önceden belirlenen altın örneklerden ilk üçünü geçemiyor; eval kapısı reddetti.
-Çalışan artefakt sentetik demo olarak kaldı. HF yayını yapılmadı; 60–90 sn demo video bekliyor.
+Çalışan artefakt sentetik demo olarak kaldı ve açık etiketle HF'de yayınlandı:
+[kurtulus7182/SEPrimer](https://huggingface.co/kurtulus7182/SEPrimer) —
+commit `2e720cf8bdf86b26c4584371b18475cc10d00df1`. Bu bir gerçek veri modeli değildir;
+eval kapısını geçmediği için gerçek aday yayınlanmadı. 60–90 sn demo video bekliyor.
 AI Studio'daki v1 adresi bu değişiklikleri içermez.
 
 Model mentorun **ne zaman** açılacağını belirler; Gemini mentorun konuşma üretiminden
@@ -327,7 +330,8 @@ ailesi için raporlanır ve "8 yolun tamamı öğrenildi" gibi bir iddia kurulma
   (`scripts/validate_data.py` ile doğrulanmış).
 - [ ] Gerçek veri eval kapısı (aday çoğunluk sınıfını tahmin etti ve altın örnekleri geçemedi).
   Yeni ve çeşitli gerçek oturumlar toplanmadan model/HF yayını yapılmamalı.
-- [ ] HF public repo ve commit'e sabit model URL'si.
+- [x] HF public demo repo ve commit'e sabit model URL'si
+  (`kurtulus7182/SEPrimer@2e720cf…`; sentetik demo, gerçek veri modeli değil).
 - [x] v2 canlı uygulama GitHub Pages'te yayında.
 - [ ] Teslimden önce gizli pencerede dört teslim bağlantısının son kontrolü.
 - [ ] `DEMO.md` planıyla 60–90 sn video çekimi ve video bağlantısı.

@@ -25,6 +25,7 @@ değildir. Gerçek oturum sayısı ve eval denemesi aşağıdaki CSV ve komut ç
 | Altın kabul örnekleri | Beklenen `[1,0,1]`; üretilen `[0,0,0]`; yayın kapısı reddetti |
 | Reddedilen adayın yan etkisi | Model/config yazılmadı; sentetik demo ONNX ve Python oracle hash/paritesi korundu |
 | Gerçek kullanıcı genellemesi | 30 oturum kullanıcının kendi kullanımından; 30 farklı katılımcı değildir |
+| HF demo yayını | `kurtulus7182/SEPrimer@2e720cf8…`; model.onnx/config.json bayt-eşit; status=synthetic-demo |
 | Veri tekrarı | 90 satırda yalnız 30 benzersiz özellik vektörü; 60 satır birebir tekrar |
 | Çelişkili etiket | 12 özellik vektörü aynı girdiyle hem 0 hem 1 etiketli |
 | Çoğunluk oyu tavanı | 70/90 = 0.7778; bu veride ulaşılabilecek en iyi sabit tahmin |
@@ -90,6 +91,6 @@ tahmin ediyor ve altın kabul örneklerini karşılamıyor; bu nedenle yeni ger�
 yayımlanmadı. `ipucu_sayisi` tüm gerçek satırlarda 0'dır; mevcut örneklem tek kullanıcılı
 olduğundan daha çeşitli kullanıcı oturumlarıyla değerlendirme gerekir.
 
-Bekleyenler: daha çeşitli gerçek oturumlarla eval kapısını geçmek, HF public repo/commit ve
-60–90 saniyelik insan tarafından sunulan demo video. Eşik düşürülmemeli; sentetik model
-gerçek veri modeli gibi yayımlanmamalı.
+Bekleyenler: daha çeşitli gerçek oturumlarla eval kapısını geçmek, gerçek veri modelinin
+HF yayını ve 60–90 saniyelik insan tarafından sunulan demo video. Sentetik demo HF'de
+açık etiketle yayınlandı; gerçek veri modeli gibi sunulmamalı.

@@ -23,9 +23,9 @@ yaklaşık 80 saniyelik bir okuma içindir; birebir okunmak zorunda değildir.
 > kriz freni riski düşürüyor.
 >
 > Veri toplama açık; şu an 30 gerçek oturum var ama bunlar tek kullanıcıdan ve model
-> hâlâ sentetik demo. Eval kapısını geçmediği için gerçek veri modeli yayınlamadım.
-> Python ve tarayıcı çıkarımı aynı sonucu veriyor. Bu video, sentetik demo modelini
-> ve mevcut v2 akışını gösteriyor.
+> hâlâ sentetik demo. Sentetik demoyu Hugging Face'te açık etiketle yayınladım; eval
+> kapısını geçmediği için gerçek veri modelini yayınlamadım. Python ve tarayıcı çıkarımı
+> aynı sonucu veriyor. Bu video, sentetik demo modelini ve mevcut v2 akışını gösteriyor.
 
 Çekimden önce tarayıcıyı gizli pencerede açın, kişisel sekme/parola göstermeyin.
 
