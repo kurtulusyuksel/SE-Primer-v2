@@ -88,11 +88,13 @@ MVP kapsamı ve önceliklendirme doğrultusunda aşağıdaki özellikler ilk sü
 
 **Depo:** https://github.com/kurtulusyuksel/SE-Primer-v2  
 **Canlı v2:** https://kurtulusyuksel.github.io/SE-Primer-v2/  
-**Durum:** v2 GitHub Pages'te yayında. `data/oturumlar.csv` içinde 15 gerçek oturum / 45 karar var.
-Bu veriden aday modelin sabit holdout doğruluğu 0.333 oldu; önceden belirlenmiş 0.75 eval
-kapısı reddetti. Bu nedenle çalışan artefakt sentetik demo olarak kaldı; gerçek veri modeli
-ve Hugging Face yayını yapılmadı. 60–90 sn demo video da bekliyor. AI Studio'daki v1 adresi
-bu değişiklikleri içermez.
+**Durum:** v2 GitHub Pages'te yayında. `data/oturumlar.csv` içinde iki dışa aktarımdan
+birleştirilmiş 30 tamamlanmış oturum / 90 karar var. Kullanıcı bu oturumların kendi gerçek
+kullanımlarından geldiğini bildirdi; 30 farklı katılımcı oldukları iddia edilmiyor.
+Birleştirilmiş adayın holdout doğruluğu 0.792 olsa da 24 test kararının tamamını 0 tahmin ediyor
+ve önceden belirlenen altın örneklerden ilk üçünü geçemiyor; eval kapısı reddetti.
+Çalışan artefakt sentetik demo olarak kaldı. HF yayını yapılmadı; 60–90 sn demo video bekliyor.
+AI Studio'daki v1 adresi bu değişiklikleri içermez.
 
 Model mentorun **ne zaman** açılacağını belirler; Gemini mentorun konuşma üretiminden
 ayrıdır. Yüksek ihtiyaçta sahneye özel Sokratik soru ve deneyimli modda sayaç durdurma var.
@@ -119,10 +121,11 @@ Etiket her sahnede ayrı sorulur çünkü her oturum üç bağımsız satır ür
 45 satırlık veri sözleşmesini bozar.
 Üç sahneyi bitirin; ana ekrana dönüp CSV indirin. Oyun sırasında üstte “Kayıt açık —
 bu oturumda 2/3 karar kaydedildi” durumu görünür; mod sekme yenilenince açık kalır.
-En az 15 tamamlanmış gerçek oturumu `data/oturumlar.csv` olarak kaydedin. Mevcut CSV,
-kullanıcının kendi kullanımıyla kaydettiğini belirttiği 15 oturumu içerir; bunlar 15 farklı
-katılımcı değildir. Geniş kullanıcı kitlesine genelleme iddiası çıkarılamaz.
-Ayrıntılar `data/SOZLUK.md`; 15 oturumluk dağıtım, gönüllü mesajı ve ilerleme tablosu
+En az 15 tamamlanmış gerçek oturumu `data/oturumlar.csv` olarak kaydedin. Mevcut dosya,
+kullanıcının kendi kullanımlarından bildirdiği, UUID'leri çakışmayan iki dışa aktarımdan
+birleştirilen 30 oturum içerir; bunlar 30 farklı katılımcı değildir. Geniş kullanıcı kitlesine
+genelleme iddiası çıkarılamaz.
+Ayrıntılar `data/SOZLUK.md`; gönüllü mesajı ve ilerleme tablosu
 `data/GONULLU_PLANI.md`.
 
 Python 3.12 önerilir. PowerShell'de:
@@ -190,11 +193,13 @@ Teslim öncesi tüm kapıları tek komutta denetlemek için:
 Betik veri, model, HF manifesti, Git durumu, video ve beyan alanlarını kontrol eder;
 ağ isteği yapmaz, canlı bağlantıyı "elle doğrula" olarak işaretler.
 
-Mevcut 45 satırın etiketleri 27 "yardım gerekmiyor", 18 "yardım gerekli" olarak dağılır.
-Holdout 4 oturum / 12 karardır ve 0.333 doğruluk üretmiştir; yeni model yazılmamıştır.
-`ipucu_sayisi` 45 satırın tamamında 0 olduğundan şu veri kümesinde ayırt edici bilgi taşımaz.
-Kullanıcı davranışını doğal biçimde çeşitlendirerek daha fazla oturum toplayın; etiketi veya
-kararı modelin geçmesi için yönlendirmeyin. Eval eşiğini düşürmeyin.
+Mevcut 90 satırın etiketleri 64 "yardım gerekmiyor", 26 "yardım gerekli" olarak dağılır.
+Holdout 8 oturum / 24 karardır. Accuracy=0.791667 görünse de model tüm test girdilerini 0
+olarak sınıflandırmıştır (TN=19, FN=5); bu nedenle doğruluk tek başına yeterli değildir.
+İlk üç altın kabul örneğinin beklenen `[1, 0, 1]` tahminleri yerine `[0, 0, 0]` çıktı;
+eval kapısı reddetti, gerçek veri adayı artefaktları yazılmadı. `ipucu_sayisi` 90 satırın
+tamamında 0 olduğundan ayırt edici bilgi taşımaz. Daha çeşitli gerçek kullanıcı oturumları
+toplayın; etiketi/kararı yönlendirmeyin ve eval eşiğini düşürmeyin.
 
 Üretici seed=42 ve kuralı `data/SOZLUK.md` içinde. Sentetik veri gerçek CSV'ye yazılmaz.
 Accuracy>=0.75 kabul eşiği `spec.md` ve `model/contract.json` içinde eğitimden önce tanımlıdır;
@@ -268,8 +273,8 @@ Gerçek oturum sayısı 15'e ulaşmadan bu tasarımın öğrenmeyi iyileştirdi�
 ### 8 karar yolu sınırı
 
 Üç sahne ve iki seçenek nedeniyle bir oyunun A/B karar yolu en fazla 2³ = 8'dir:
-`AAA, AAB, ABA, ABB, BAA, BAB, BBA, BBB`. 15 oturum bu yolları tekrar eder; bu, 15 farklı
-senaryo anlamına gelmez. Veri setinin birimi oturum değil **karar satırıdır**: 15 × 3 = 45 satır.
+`AAA, AAB, ABA, ABB, BAA, BAB, BBA, BBB`. 30 oturum bu yolları tekrar eder; bu, 30 farklı
+senaryo anlamına gelmez. Veri setinin birimi oturum değil **karar satırıdır**: 30 × 3 = 90 satır.
 Model A/B yolunu sınıflandırmaz; `ipucu_gerekli` etiketini beş sayısal özellikle tahmin eder.
 Aynı yol farklı karar süresi, ipucu sayısı, profil ve önceki yanlış sayısıyla farklı satırlar
 üretir. Yine de bu tekrar geniş genelleme iddiasını sınırlar; sonuçlar yalnız bu senaryo
@@ -279,7 +284,7 @@ ailesi için raporlanır ve "8 yolun tamamı öğrenildi" gibi bir iddia kurulma
 
 - [x] En az 15 gerçek tamamlanmış oturum (45 karar), iki sınıfı da içeren veri
   (`scripts/validate_data.py` ile doğrulanmış).
-- [ ] Gerçek veri eval kapısı (mevcut aday 0.333 doğrulukla 0.75 eşiğini geçemedi).
+- [ ] Gerçek veri eval kapısı (aday çoğunluk sınıfını tahmin etti ve altın örnekleri geçemedi).
   Yeni ve çeşitli gerçek oturumlar toplanmadan model/HF yayını yapılmamalı.
 - [ ] HF public repo ve commit'e sabit model URL'si.
 - [x] v2 canlı uygulama GitHub Pages'te yayında.

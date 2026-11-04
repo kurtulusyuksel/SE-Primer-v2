@@ -5,11 +5,12 @@ uydurulmaz; her satır gerçek bir gönüllünün oynadığı oyundan gelir.
 
 ## Güncel veri durumu — 4 Kasım 2026
 
-`data/oturumlar.csv` içinde 15 tamamlanmış oturum / 45 karar satırı vardır; iki etiket
-de mevcuttur. Kullanıcı bu oturumları kendi gerçek kullanımıyla kaydettiğini bildirmiştir;
-15 farklı katılımcı oldukları iddia edilmez. Eğitim holdout doğruluğu 0.333 olduğundan
-eval kapısı geçilmedi. Yeni katılımcı ve daha çeşitli davranışlardan veri toplama sürmelidir.
-Etiket veya kararlar model eşiğini geçsin diye yönlendirilmemelidir.
+`data/oturumlar.csv` içinde iki UUID-çakışmasız dışa aktarımdan birleştirilmiş 30 tamamlanmış
+oturum / 90 karar satırı vardır; iki etiket de mevcuttur. Kullanıcı oturumları kendi gerçek
+kullanımından bildirmiştir; 30 farklı katılımcı oldukları iddia edilmez. Holdout doğruluğu
+0.791667 olsa da model tüm holdout kararlarını 0 tahmin etti ve ilk üç altın örneği geçemedi;
+eval kapısı reddedildi. Yeni ve daha çeşitli katılımcı oturumları toplanmalıdır. Etiket veya
+kararlar model eşiğini geçsin diye yönlendirilmemelidir.
 
 ## Hedef
 

@@ -13,15 +13,17 @@ değildir. Gerçek oturum sayısı ve eval denemesi aşağıdaki CSV ve komut ç
 | Ödev 6 regresyon E2E | 3/3 geçti |
 | Cypress tam yerel koşu | 14 geçti, 1 isteğe bağlı yayın testi atlandı |
 | GitHub Pages canlı duman testi | 1/1 geçti (gerçek WASM, canlı URL) |
-| Veri kapısı doğrulayıcısı | Boş gerçek CSV'yi reddetti; 15 oturum / 45 satır kabul edildi |
+| Veri kapısı doğrulayıcısı | İki yeni dışa aktarımı birleştirdi; 30 oturum / 90 satır kabul edildi |
 | ONNX modeli | 5 özellik, StandardScaler + LogisticRegression |
 | Sentetik holdout doğruluğu (karar eşiği 0.60) | 0.9055555556 |
 | sklearn -> ONNX maksimum mutlak fark | 1.3763748297e-7 (<1e-4) |
-| Gerçek CSV | 15 tamamlanmış oturum / 45 satır; kaynak=gercek; etiketler 27/18 |
-| Gerçek veri validator | 15/15 tamamlandı; UUID/sahne/özellik/sınıf kapıları geçti; `ipucu_sayisi` sabit uyarısı |
-| Gerçek veri eval denemesi | GroupShuffleSplit seed=42; holdout 4 oturum / 12 satır; accuracy=0.333333 (<0.75), reddedildi |
+| Gerçek CSV | 30 tamamlanmış oturum / 90 satır; kaynak=gercek; etiketler 64/26 |
+| Gerçek veri validator | 30/30 tamamlandı; UUID/sahne/özellik/sınıf kapıları geçti; `ipucu_sayisi` sabit uyarısı |
+| Gerçek veri eval denemesi | GroupShuffleSplit seed=42; holdout 8 oturum / 24 satır; accuracy=0.791667 |
+| Holdout hata profili | TN=19, FP=0, FN=5, TP=0; model tüm holdout satırlarını 0 tahmin etti |
+| Altın kabul örnekleri | Beklenen `[1,0,1]`; üretilen `[0,0,0]`; yayın kapısı reddetti |
 | Reddedilen adayın yan etkisi | Model/config yazılmadı; sentetik demo ONNX ve Python oracle hash/paritesi korundu |
-| Gerçek kullanıcı genellemesi | 15 oturum kullanıcının kendi kullanımından; 15 farklı katılımcı değildir |
+| Gerçek kullanıcı genellemesi | 30 oturum kullanıcının kendi kullanımından; 30 farklı katılımcı değildir |
 
 Eğitim testleri boş gerçek verinin reddini, başarısız eval'in önceki artefaktı korumasını
 ve aynı veri/seed/bağımlılıklarla birebir aynı model+metriklerin üretilmesini doğruladı.
@@ -52,6 +54,7 @@ Ekran görüntüleri `cypress/screenshots/model.cy.js/` altında (Git dışında
 
 Son v2 test tekrarında 13/13 model/yayın/veri testi ve 3/3 regresyon testi geçti
 (toplam 16/16; iki isteğe bağlı canlı test PAGES_URL verilmediği için atlandı).
+4 Kasım yeniden koşusunda üretim derlemesine karşı 16 test geçti, 2 isteğe bağlı test atlandı.
 GitHub Pages'teki canlı v2 URL'sinde gerçek WASM çıkarımı 1/1 ve uçtan uca veri
 toplama akışı 1/1 doğrulandı (`--expose PAGES_URL=...`).
 Bunlar gerçek insan oturumları değildir; test verileri gerçek CSV'ye yazılmadı.
@@ -66,9 +69,10 @@ Veri kapısı doğrulayıcısı (`scripts/validate_data.py`) boş dosyayı, 14 o
 sahneyi, aralık dışı özelliği, tek sınıfı ve yanlış kaynağı reddetti; 15 tamamlanmış oturumu
 (45 satır) kabul etti. `scripts/delivery_check.py` eksik kapıları tek raporda gösteriyor.
 
-Gerçek veri adayının tekrarlanan eğitim komutu önceden belirlenmiş eşiği yine reddetti
-(accuracy=0.333333). `ipucu_sayisi` tüm gerçek satırlarda 0'dır; mevcut örneklem küçük ve
-tek kullanıcılı olduğundan adayın yeni verilerle değerlendirilmesi gerekir.
+Birleştirilmiş gerçek veri doğruluğu 0.75'in üstünde olsa da model yalnız çoğunluk sınıfını
+tahmin ediyor ve altın kabul örneklerini karşılamıyor; bu nedenle yeni gerçek veri adayı
+yayımlanmadı. `ipucu_sayisi` tüm gerçek satırlarda 0'dır; mevcut örneklem tek kullanıcılı
+olduğundan daha çeşitli kullanıcı oturumlarıyla değerlendirme gerekir.
 
 Bekleyenler: daha çeşitli gerçek oturumlarla eval kapısını geçmek, HF public repo/commit ve
 60–90 saniyelik insan tarafından sunulan demo video. Eşik düşürülmemeli; sentetik model
