@@ -78,9 +78,11 @@ def check_model(data_result):
         problems.append(f'accuracy={metrics.get("accuracy")}')
     if sha256(model_path) != config.get('model_sha256'):
         problems.append('model SHA256 uyuşmuyor')
-    data_path = ROOT / 'data/oturumlar.csv'
+    data_name = ('data/oturumlar.csv' if config.get('status') == 'real-data-candidate'
+                 else 'data/sentetik.csv')
+    data_path = ROOT / data_name
     if data_path.exists() and sha256(data_path) != config.get('data_sha256'):
-        problems.append('veri SHA256 uyuşmuyor')
+        problems.append(f'{data_name} SHA256 uyuşmuyor')
     if metrics.get('onnx_max_abs_error', 1) >= config.get('tolerance', 1e-4):
         problems.append('ONNX farkı toleransı aşıyor')
     if problems:
