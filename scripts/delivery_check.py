@@ -106,7 +106,8 @@ def check_release():
     elif not re.fullmatch(r'[a-f0-9]{40}', revision):
         add(FAIL, 'HF yayını', 'revision 40 karakter commit SHA değil.')
     else:
-        demo = repo.rsplit('/', 1)[-1].endswith('-demo')
+        demo = (release.get('kind') == 'synthetic-demo'
+                or repo.rsplit('/', 1)[-1].endswith('-demo'))
         suffix = ' (sentetik demo; gerçek veri modeli değil)' if demo else ''
         add(PASS, 'HF yayını', f'{repo}@{revision[:12]}…{suffix}')
 

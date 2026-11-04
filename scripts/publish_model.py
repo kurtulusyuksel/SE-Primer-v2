@@ -18,8 +18,10 @@ def publish(repo_id, demo=False):
     if demo:
         if config['status'] != 'synthetic-demo' or config['metrics'].get('real_sessions', 0) != 0:
             raise ValueError('Demo yayini yalniz status=synthetic-demo ve real_sessions=0 artefakti kabul eder.')
+        if repo_id.strip('/').lower() == 'kurtulus7182/se-primer-kriz-freni':
+            raise ValueError('Demo yayini resmi gercek model deposuna yapilamaz.')
         if not repo_id.split('/')[-1].endswith('-demo'):
-            raise ValueError('Demo deposu adi -demo ile bitmeli; gercek model deposuyla karistirilmamali.')
+            print('UYARI: demo deposu adi -demo ile bitmiyor; model karti sentetik demo olarak isaretli.')
         mode, percentage = 'active', 100
         commit_message = 'v2.0: synthetic demo model (not a real-data candidate)'
     else:
@@ -43,6 +45,7 @@ def publish(repo_id, demo=False):
     previous = json.loads((ROOT / 'public/model-release.json').read_text(encoding='utf-8'))
     (ROOT / 'public/model-release.previous.json').write_text(json.dumps(previous, indent=2) + '\n', encoding='utf-8')
     release = {'source': 'huggingface', 'mode': mode, 'percentage': percentage,
+               'kind': 'synthetic-demo' if demo else 'real-data-candidate',
                'repo_id': repo_id, 'revision': info.oid}
     (ROOT / 'public/model-release.json').write_text(json.dumps(release, indent=2) + '\n', encoding='utf-8')
     with (ROOT / 'RELEASE.md').open('a', encoding='utf-8') as stream:

@@ -267,13 +267,14 @@ içine yazar ve shadow'da başlatır.
 **Sentetik demo** (mevcut durum; açık etiketli):
 
 ```powershell
-.\.venv\Scripts\python.exe scripts/publish_model.py --demo --repo kurtulus7182/se-primer-kriz-freni-demo
+.\.venv\Scripts\python.exe scripts/publish_model.py --demo --repo kurtulus7182/SEPrimer
 ```
 
 `--demo` yalnız `status=synthetic-demo` ve `real_sessions=0` artefaktını kabul eder;
-repo adı `-demo` ile bitmelidir. Model kartı "sentetik demo" der, mod `active` olur ama
-gerçek başarım iddiası taşımaz. Bu yayın HF public repo/commit kapısını karşılar;
-model eval kapısını karşılamaz. Detaylar `RELEASE.md`. Token'ı repoya koymayın.
+resmi gerçek model deposuna (`kurtulus7182/se-primer-kriz-freni`) yazmayı reddeder.
+Repo adında `-demo` yoksa uyarı verir. Model kartı "sentetik demo" der, mod `active`
+olur ama gerçek başarım iddiası taşımaz. Bu yayın HF public repo/commit kapısını
+karşılar; model eval kapısını karşılamaz. Detaylar `RELEASE.md`. Token'ı repoya koymayın.
 
 ### GitHub Pages yayını
 

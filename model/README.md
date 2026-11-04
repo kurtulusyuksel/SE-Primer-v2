@@ -5,6 +5,7 @@ tags:
   - onnx
   - tabular-classification
   - education
+  - synthetic-demo
   - logistic-regression
 model-index:
   - name: SE Primer Kriz Freni
