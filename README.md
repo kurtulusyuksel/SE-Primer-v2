@@ -20,7 +20,7 @@ Oyuncu, kriz sırasında mimari, test ve veri güvenliği (KVKK/PCI-DSS) kararla
 - 🌐 **Canlı v2 (GitHub Pages):** [kurtulusyuksel.github.io/SE-Primer-v2](https://kurtulusyuksel.github.io/SE-Primer-v2/)
 - 🕰️ **v1 (AI Studio):** [SE Primer](https://se-primer-muhte-em-cuma-kriz-odas.ai.studio/) — v2 değişikliklerini içermez
 - 💻 **v2 kaynak deposu:** [github.com/kurtulusyuksel/SE-Primer-v2](https://github.com/kurtulusyuksel/SE-Primer-v2)
-- 🎥 **Cypress E2E demo videosu:** [Videoyu görüntüle](<./cypress/e2e/Kayıt 2026-10-26 232608.mp4>)
+- 🎥 **Demo videosu (75 sn):** [Videoyu görüntüle](<./assets/demo.mp4>)
 - 🎨 **Tasarım sistemi:** [design.md](./design.md)
 - 📊 **Sokratik mentor değerlendirmesi:** [eval.md](./eval.md)
 - 📋 **Proje kapsamı ve kabul kriterleri:** [spec.md](./spec.md)
@@ -98,7 +98,7 @@ yayınlanmadı. Önceki 30 oturumluk denemenin kök neden analizi `TEST_SONUCLAR
 Çalışan artefakt sentetik demo olarak kaldı ve açık etiketle HF'de yayınlandı:
 [kurtulus7182/SEPrimer](https://huggingface.co/kurtulus7182/SEPrimer).
 Bu bir gerçek veri modeli değildir; eval kapısı geçilirse aynı repo gerçek adayla
-güncellenecek. 60–90 sn demo video bekliyor.
+güncellenecek. 75,7 sn demo video `assets/demo.mp4` olarak eklendi ve README'den bağlandı.
 AI Studio'daki v1 adresi bu değişiklikleri içermez.
 
 Model mentorun **ne zaman** açılacağını belirler; Gemini mentorun konuşma üretiminden
@@ -360,7 +360,7 @@ ailesi için raporlanır ve "8 yolun tamamı öğrenildi" gibi bir iddia kurulma
   (`kurtulus7182/SEPrimer@5c3a504…`; sentetik demo, gerçek veri modeli değil).
 - [x] v2 canlı uygulama GitHub Pages'te yayında.
 - [ ] Teslimden önce gizli pencerede dört teslim bağlantısının son kontrolü.
-- [ ] `DEMO.md` planıyla 60–90 sn video çekimi ve video bağlantısı.
+- [x] `DEMO.md` planıyla 75,7 sn video çekimi ve README video bağlantısı (`assets/demo.mp4`).
 - [ ] `SINAV_TASARIMI.md` içeriğini okuyup kendi cümlelerinle gözden geçirme.
 
 Kapı durumunu tek komutta görmek için:

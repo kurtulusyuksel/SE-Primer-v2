@@ -18,6 +18,7 @@ değildir. Gerçek oturum sayısı ve eval denemesi aşağıdaki CSV ve komut ç
 | Ödev 6 regresyon E2E | 3/3 geçti |
 | Cypress tam yerel koşu | 14 geçti, 1 isteğe bağlı yayın testi atlandı |
 | GitHub Pages canlı duman testi | 1/1 geçti (gerçek WASM, canlı URL, HF manifesti ve model SHA doğrulandı) |
+| Demo videosu | `assets/demo.mp4`, 75,7 sn, H.264 + AAC; README bağlantısı var |
 | Veri kapısı doğrulayıcısı | İki yeni dışa aktarımı birleştirdi; 30 oturum / 90 satır kabul edildi |
 | ONNX modeli | 5 özellik, StandardScaler + LogisticRegression |
 | Sentetik holdout doğruluğu (karar eşiği 0.60) | 0.9055555556 |
@@ -115,6 +116,6 @@ tahmin ediyor ve altın kabul örneklerini karşılamıyor; bu nedenle yeni ger�
 yayımlanmadı. `ipucu_sayisi` tüm gerçek satırlarda 0'dır; mevcut örneklem tek kullanıcılı
 olduğundan daha çeşitli kullanıcı oturumlarıyla değerlendirme gerekir.
 
-Bekleyenler: daha çeşitli gerçek oturumlarla eval kapısını geçmek, gerçek veri modelinin
-HF yayını ve 60–90 saniyelik insan tarafından sunulan demo video. Sentetik demo HF'de
+Bekleyenler: daha çeşitli gerçek oturumlarla eval kapısını geçmek ve gerçek veri modelinin
+HF yayını. 75,7 sn demo video `assets/demo.mp4` olarak eklendi. Sentetik demo HF'de
 açık etiketle yayınlandı; gerçek veri modeli gibi sunulmamalı.

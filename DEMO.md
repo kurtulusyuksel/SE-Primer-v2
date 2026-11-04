@@ -1,6 +1,6 @@
 # 60–90 saniyelik demo çekim planı
 
-Bu dosya çekim planıdır; video henüz kaydedilip yayınlanmadı.
+Bu dosya çekim planıdır. Video kaydedildi: `assets/demo.mp4`, 75,7 sn, H.264 + AAC.
 Video, sahibinin kendi sesiyle 60–90 saniye içinde anlatılmalıdır. Aşağıdaki metin
 yaklaşık 80 saniyelik bir okuma içindir; birebir okunmak zorunda değildir.
 
@@ -65,8 +65,8 @@ göstermeli. Lab ekranı tek başına bu koşulu karşılamaz. Kişisel veri/ana
 
 **Sonra**
 
-- [ ] Kaydı 60–90 saniyeye kırp; gerekiyorsa 2–3 kesit kullan.
-- [ ] `assets/demo.mp4` olarak kaydet ve README'deki video bağlantısını buna çevir.
-- [ ] `.\.venv\Scripts\python.exe scripts/delivery_check.py` çalıştır;
+- [x] Kaydı 60–90 saniyeye kırp; gerekiyorsa 2–3 kesit kullan. (75,7 sn)
+- [x] `assets/demo.mp4` olarak kaydet ve README'deki video bağlantısını buna çevir.
+- [x] `.\.venv\Scripts\python.exe scripts/delivery_check.py` çalıştır;
       "Demo videosu" satırının GEÇTİ olduğunu doğrula.
 - [ ] Videoda ad, e-posta, token veya kişisel sekme görünmediğini son kez izle.
