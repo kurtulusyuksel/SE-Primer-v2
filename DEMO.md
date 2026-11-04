@@ -22,11 +22,11 @@ yaklaşık 80 saniyelik bir okuma içindir; birebir okunmak zorunda değildir.
 > Deneyimli profile dönüyorum; yeterince beklediğimde süre baskısı duruyor, çünkü
 > kriz freni riski düşürüyor.
 >
-> Veri toplama açık; eski 30 oturumluk veriyi sıfırladım ve 15 oturumu kendim yeniden
-> topluyorum. Model hâlâ sentetik demo. Sentetik demoyu Hugging Face'te açık etiketle
-> yayınladım; eval kapısını geçmediği için gerçek veri modelini yayınlamadım. Python ve
-> tarayıcı çıkarımı aynı sonucu veriyor. Bu video, sentetik demo modelini ve mevcut v2
-> akışını gösteriyor.
+> Veri toplama açık; 15 oturum topladım, ancak etiketlerin neredeyse tamamı 0 çıktığı
+> için model eğitimi kapıda reddedildi. Model hâlâ sentetik demo. Sentetik demoyu Hugging
+> Face'te açık etiketle yayınladım; eval kapısını geçmediği için gerçek veri modelini
+> yayınlamadım. Python ve tarayıcı çıkarımı aynı sonucu veriyor. Bu video, sentetik demo
+> modelini ve mevcut v2 akışını gösteriyor.
 
 Çekimden önce tarayıcıyı gizli pencerede açın, kişisel sekme/parola göstermeyin.
 
