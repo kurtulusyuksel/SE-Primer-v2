@@ -105,3 +105,10 @@ Model boyutu gerçek dosyadan ölçülür; runtime modelden çok daha büyüktü
 - Mod: active (yalnız demo; gerçek veri modeli değildir).
 - Model: https://huggingface.co/kurtulus7182/SEPrimer/resolve/5c3a5043bb18cfecad4a362e99e5a89e55660b7b/model.onnx
 - Bu yayın model eval kapısını geçmez; gerçek kullanıcı başarımı iddiası taşımaz.
+
+## Yayınlanan sentetik demo
+- Repo: https://huggingface.co/kurtulus7182/SEPrimer
+- Commit: `237b231a5167f8ee0ff4ad59b2b4ac763d6604a9`
+- Mod: active (yalnız demo; gerçek veri modeli değildir).
+- Model: https://huggingface.co/kurtulus7182/SEPrimer/resolve/237b231a5167f8ee0ff4ad59b2b4ac763d6604a9/model.onnx
+- Bu yayın model eval kapısını geçmez; gerçek kullanıcı başarımı iddiası taşımaz.

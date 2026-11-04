@@ -58,6 +58,12 @@ Oturum ayrımı kişi ayrımı garantilemez. Model olasılıkları kalibre edilm
 Öğrenci notlandırma, işe alım, kişilik/sağlık değerlendirmesi veya gerçek ödeme sistemlerinde
 karar verme için kullanılmaz. İstemciye indirilen model gizli değildir.
 
+## Demo
+
+- Canlı uygulama: https://kurtulusyuksel.github.io/SE-Primer-v2/
+- 75,7 sn demo video: https://github.com/kurtulusyuksel/SE-Primer-v2/blob/main/assets/demo.mp4
+- Kaynak depo: https://github.com/kurtulusyuksel/SE-Primer-v2
+
 ## Kaynaklar
 - https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
 - https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GroupShuffleSplit.html
